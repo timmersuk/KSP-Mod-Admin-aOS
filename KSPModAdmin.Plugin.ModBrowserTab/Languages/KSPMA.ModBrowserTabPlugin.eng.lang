@@ -1,0 +1,11 @@
+<Language Name="eng" LongName="English">
+  <String Name="MSG_MODBROWSER_VIEW_TITLE" Value="Mod Browser"/>
+  <String Name="MSG_MODBROWSER_CKAN_VIEW_TITLE" Value="CKAN"/>
+
+  <String Name="UcModBrowserCKANView_Item_00" Value="Mod"/>
+  <String Name="UcModBrowserCKANView_Item_01" Value="Version"/>
+  <String Name="UcModBrowserCKANView_Item_02" Value="Author"/>
+  <String Name="UcModBrowserCKANView_Item_03" Value="Description"/>
+</Language>
+  
+  

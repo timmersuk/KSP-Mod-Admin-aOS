@@ -27,6 +27,9 @@
 //// TODO
 ///////////////////// 
 
+- CKAN package support (add as file or url) + CKAN repository browser
+  - Finde a place to holde the CKAN Repos.
+
 - Maybe its time for a force delete option. To delete folders which contain untracked files.
 
 - Known KSP Path: Relative ksp path search (options/path) create a new dialog for this option.
@@ -75,9 +78,7 @@
 //// SUGGESTIONS
 /////////////////////
 
-- CKAN package support (add as file or url) + CKAN repository browser
 - PartEditor with ModulManager support
-- 
 
 - Perhaps you could add a launch option to start the game through Steam. Just using "steam://rungameid/220200" should work.
 - Option to add files to an exclude list for mod install (like readme, txt, licenses ...)
