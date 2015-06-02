@@ -30,6 +30,8 @@
 - CKAN package support (add as file or url) + CKAN repository browser
   - Finde a place to holde the CKAN Repos.
 
+- KSP MA could optionally look within the saves subfolders for ships, and not only go about the Ships subfolder in root. Of course, showing where each craft is saved is also needed.
+
 - Maybe its time for a force delete option. To delete folders which contain untracked files.
 
 - Known KSP Path: Relative ksp path search (options/path) create a new dialog for this option.

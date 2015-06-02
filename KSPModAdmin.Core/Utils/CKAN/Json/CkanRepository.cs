@@ -4,7 +4,7 @@ namespace KSPMODAdmin.Core.Utils.Ckan
 {
     public class CkanRepository
     {
-        public string name;
+        public string name = string.Empty;
         public Uri uri;
 
         public override string ToString()

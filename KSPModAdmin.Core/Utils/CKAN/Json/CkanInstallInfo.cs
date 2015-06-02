@@ -5,12 +5,12 @@ namespace KSPMODAdmin.Core.Utils.Ckan
 {
     public class CkanInstallInfo
     {
-        public string file;
-        public string find;
-        public string install_to;
+        public string file = string.Empty;
+        public string find = string.Empty;
+        public string install_to = string.Empty;
         [JsonConverter(typeof(JsonSingleOrArrayConverter<string>))]
-        public List<string> filter;
+        public List<string> filter = new List<string>();
         [JsonConverter(typeof(JsonSingleOrArrayConverter<string>))]
-        public List<string> filter_regexp;
+        public List<string> filter_regexp = new List<string>();
     }
 }

@@ -2,9 +2,9 @@
 {
     public class CkanRelation
     {
-        public string name;
-        public string version;
-        public string min_version;
-        public string max_version;
+        public string name = string.Empty;
+        public string version = string.Empty;
+        public string min_version = string.Empty;
+        public string max_version = string.Empty;
     }
 }
