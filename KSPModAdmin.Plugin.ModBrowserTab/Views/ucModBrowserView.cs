@@ -14,8 +14,14 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Reviewed. Suppression is OK here.")]
     public partial class ucModBrowserView : ucBase
     {
+        /// <summary>
+        /// Gets the currently selected ModBrowser.
+        /// </summary>
         public IKSPMAModBrowser CurrentModBrowser { get; protected set; }
 
+        /// <summary>
+        /// Gets or sets the show state of the processing icon.
+        /// </summary>
         public bool ShowProcessing
         {
             get { return tslModBrowserProcessing.Visible; }
@@ -87,6 +93,13 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
             cbModBrowser.Enabled = enable;
         }
 
+        /// <summary>
+        /// Sets the visibility and values of the ProgressBar of the ModBrowserView.
+        /// </summary>
+        /// <param name="show">Flag to determine to show or hide the ProgressBar.</param>
+        /// <param name="value">The value for the ProgressBar.</param>
+        /// <param name="max">The maximum value for the ProgressBar.</param>
+        /// <param name="min">The minimum value for the ProgressBar.</param>
         public void ShowProgressBar(bool show, int value, int max = 100, int min = 0)
         {
             InvokeIfRequired(() =>
@@ -104,6 +117,10 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
                 });
         }
 
+        /// <summary>
+        /// Adds the passed ModBrowser to the selection of available MoDBrowser.
+        /// </summary>
+        /// <param name="modBrowser">The ModBrowser to add.</param>
         internal void AddModBrowser(IKSPMAModBrowser modBrowser)
         {
             if (!cbModBrowser.Items.Cast<ModBrowserInfo>().Any(mb => mb.ModBrowserName == modBrowser.ModBrowserName))
@@ -117,17 +134,26 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
             }
         }
 
+        /// <summary>
+        /// Removes all available ModBrowser.
+        /// </summary>
         internal void RemoveAllModBrowser()
         {
             cbModBrowser.Items.Clear();
             CurrentModBrowser = null;
         }
 
+        /// <summary>
+        /// Removes the passed ModBrowser if available.
+        /// </summary>
         internal void RemoveModBrowser(IKSPMAModBrowser modBrowser)
         {
             RemoveModBrowserByName(modBrowser.ModBrowserName);
         }
 
+        /// <summary>
+        /// Removes the named ModBrowser if available.
+        /// </summary>
         internal void RemoveModBrowserByName(string modBrowserName)
         {
             if (string.IsNullOrEmpty(modBrowserName))
@@ -150,16 +176,34 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
 
         #region internal classes
 
+        /// <summary>
+        /// Helper class for better handling with the ComboBox.
+        /// </summary>
         protected class ModBrowserInfo
         {
+            /// <summary>
+            /// The ModBrowser.
+            /// </summary>
             public IKSPMAModBrowser ModBrowser { get; set; }
+
+            /// <summary>
+            /// The name of ModBrowser.
+            /// </summary>
             public string ModBrowserName { get { return ModBrowser == null ? string.Empty : ModBrowser.ModBrowserName; } }
 
+            /// <summary>
+            /// Creates a new instance of this class ModBrowserInfo.
+            /// </summary>
+            /// <param name="modBrowser">The ModBrowser.</param>
             public ModBrowserInfo(IKSPMAModBrowser modBrowser)
             {
                 ModBrowser = modBrowser;
             }
 
+            /// <summary>
+            /// Converts this class into a string
+            /// </summary>
+            /// <returns>The ModBrowserName.</returns>
             public override string ToString()
             {
                 return ModBrowser.ModBrowserName;

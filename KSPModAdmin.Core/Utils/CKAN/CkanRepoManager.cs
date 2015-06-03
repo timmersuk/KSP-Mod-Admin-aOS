@@ -9,12 +9,20 @@ using SharpCompress.Archive;
 
 namespace KSPMODAdmin.Core.Utils.Ckan
 {
+    /// <summary>
+    /// Helper class to manage the Ckan Repositories.
+    /// </summary>
     public class CkanRepoManager
     {
         public static readonly Uri DefaultRepoURL = new Uri("https://github.com/KSP-CKAN/CKAN-meta/archive/master.zip");
         public static readonly Uri MasterRepoListURL = new Uri("http://api.ksp-ckan.org/mirrors");
         public static string EXT_RAR = ".rar";
 
+        /// <summary>
+        /// Downloads the list of Ckan Repositories from the passed URL.
+        /// </summary>
+        /// <param name="repoListURL">The URL to get the Ckan Repositories from.</param>
+        /// <returns>The list of Ckan Repositories from the passed URL.</returns>
         public static CkanRepositories GetRepositoryList(Uri repoListURL)
         {
             Messenger.AddInfo(string.Format("Downloading repository list from \"{0}\"...", repoListURL.AbsoluteUri));
@@ -27,11 +35,23 @@ namespace KSPMODAdmin.Core.Utils.Ckan
             return repos;
         }
 
+        /// <summary>
+        /// Gets the named Ckan Repository from the Ckan Repository list.
+        /// </summary>
+        /// <param name="repositories">List of Ckan Repository to search in.</param>
+        /// <param name="repoName">Name of the Ckan Repository to look for.</param>
+        /// <returns>The named Ckan Repository from the Ckan Repository list or null.</returns>
         public static CkanRepository GetRepository(CkanRepositories repositories, string repoName)
         {
             return repositories.repositories.FirstOrDefault(x => x.name.Equals(repoName, StringComparison.CurrentCultureIgnoreCase));
         }
 
+        /// <summary>
+        /// Downloads the Ckan Repository archive to full path.
+        /// </summary>
+        /// <param name="repo">The Ckan Repository to get the Ckan Repository archive for.</param>
+        /// <param name="fullpath">The full path to write the downloaded file to.</param>
+        /// <returns>The new created CkanArchive which was constructed from the downloaded Ckan Repository archive.</returns>
         public static CkanArchive GetRepositoryArchive(CkanRepository repo, string fullpath)
         {
             Messenger.AddInfo(string.Format("Downloading repository archive \"{0}\" from \"{1}\"...", repo.name, repo.uri.AbsoluteUri));
@@ -42,6 +62,11 @@ namespace KSPMODAdmin.Core.Utils.Ckan
             return CreateRepositoryArchive(fullpath);
         }
 
+        /// <summary>
+        /// Creates a CkanArchive from a Ckan Repository archive file.
+        /// </summary>
+        /// <param name="fullpath">The full path to the Ckan Repository archive.</param>
+        /// <returns>The new created CkanArchive from a Ckan Repository archive file.</returns>
         public static CkanArchive CreateRepositoryArchive(string fullpath)
         {
             if (string.IsNullOrEmpty(fullpath) || !File.Exists(fullpath))

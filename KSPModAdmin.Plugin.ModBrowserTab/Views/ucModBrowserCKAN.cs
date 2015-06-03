@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows.Forms;
 using KSPModAdmin.Core.Controller;
@@ -14,36 +15,55 @@ using KSPModAdmin.Plugin.ModBrowserTab.Model;
 
 namespace KSPModAdmin.Plugin.ModBrowserTab.Views
 {
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Reviewed. Suppression is OK here.")]
     public partial class ucModBrowserCKAN : ucBase, IKSPMAModBrowser
     {
         #region Member
 
         private CkanRepositories repositories;
         private bool updating = false;
-        private bool firstStart = false;//true;
+        private bool firstStart = true;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Name of the ModBrowser.
+        /// </summary>
         public string ModBrowserName { get { return "CKAN"; } }
 
+        /// <summary>
+        /// Description of the ModBrowser.
+        /// </summary>
         public string Description { get { return "Mod Browser for CKAN"; } }
 
+        /// <summary>
+        /// The View of the ModBrowser.
+        /// </summary>
         public UserControl ModBrowserView { get { return this; } }
 
+        /// <summary>
+        /// The Model of the ModBrowser.
+        /// </summary>
         public CkanTreeModel Model
         {
             get { return tvCkanRepositories.Model as CkanTreeModel; }
             set { tvCkanRepositories.Model = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the text of the label for the Mods count.
+        /// </summary>
         public string CountLabelText
         {
             get { return lblModBrowserCkanCount.Text; }
             set { lblModBrowserCkanCount.Text = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the available Repositories.
+        /// </summary>
         public CkanRepositories Repositories
         {
             get { return repositories; }
@@ -57,6 +77,9 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
             }
         }
 
+        /// <summary>
+        /// Gets or sets the currently selected repository.
+        /// </summary>
         public CkanRepository SelectedRepository
         {
             get { return cbModBrowserCkanRepository.SelectedItem as CkanRepository; }
@@ -254,8 +277,8 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
 
             if (node.Added || node.ChildAdded)
                 e.TextColor = OptionsController.ColorModInstalled;
-            //if (node.IsOutdated)
-            //    e.TextColor = OptionsController.ColorModOutdated;
+            ////if (node.IsOutdated)
+            ////    e.TextColor = OptionsController.ColorModOutdated;
         }
 
         internal void LanguageChanged()

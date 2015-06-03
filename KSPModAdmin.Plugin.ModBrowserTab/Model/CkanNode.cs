@@ -25,12 +25,10 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
         public string Description { get { return GetDescription(); } }
         public bool Checked { get; set; }
         public bool Added { get; set; }
-
         public bool ChildAdded
         {
             get { return Nodes.Cast<CkanNode>().Any(c => c.Added); }
         }
-
         public Image Icon
         {
             get
@@ -38,9 +36,10 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
                 if (Added)
                     return (modInfo != null) ? Resources.component_add : Resources.folder_add;
                 else
-                    return (modInfo != null) ? Resources.component : Resources.folder ;
+                    return (modInfo != null) ? Resources.component : Resources.folder;
             }
         }
+
 
         public CkanNode()
         {

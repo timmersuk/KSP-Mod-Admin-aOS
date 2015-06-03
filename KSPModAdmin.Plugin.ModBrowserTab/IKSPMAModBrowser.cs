@@ -1,8 +1,10 @@
 using System.Windows.Forms;
-using KSPModAdmin.Plugin.ModBrowserTab.Views;
 
 namespace KSPModAdmin.Plugin.ModBrowserTab
 {
+    /// <summary>
+    /// Interface class for plugable ModBrowsers.
+    /// </summary>
     public interface IKSPMAModBrowser
     {
         /// <summary>

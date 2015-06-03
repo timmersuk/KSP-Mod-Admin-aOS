@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using KSPModAdmin.Core;
 using KSPModAdmin.Core.Utils;
@@ -18,7 +19,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
     {
         #region Mamber
 
-        private static string CkanArchiveFolder = "CKAN_Archives";
+        private static string ckanArchiveFolder = "CKAN_Archives";
         private static ModBrowserCKANController instance = null;
         private static CkanTreeModel model = new CkanTreeModel();
         private static Dictionary<string, CkanArchive> archives = new Dictionary<string, CkanArchive>();
@@ -106,6 +107,11 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
             Messenger.AddInfo(Messages.MSG_REFRESHING_REPOSITORIES_DONE);
         }
 
+        /// <summary>
+        /// Downloads the Ckan Repository archive if necessary, creates a CkanArchive from it and populates the view.
+        /// </summary>
+        /// <param name="repo">The Ckan Repository to get the Archive for.</param>
+        /// <param name="forceDownload">If false the download will be skipped if a Ckan Repository archive file already exists.</param>
         public static void RefreshCkanArchive(CkanRepository repo, bool forceDownload = false)
         {
             model.Nodes.Clear();
@@ -137,7 +143,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
                     }
                     else
                     {
-                        var path = Path.Combine(OptionsController.DownloadPath, CkanArchiveFolder);
+                        var path = Path.Combine(OptionsController.DownloadPath, ckanArchiveFolder);
                         if (!Directory.Exists(path))
                         {
                             Messenger.AddInfo(Messages.MSG_CREATE_CKAN_ARCHIVE);
@@ -179,17 +185,18 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
                 });
         }
 
+        /// <summary>
+        /// Processes all changes mods
+        /// Installs or uninstalls them.
+        /// </summary>
         public static void ProcessChanges()
         {
             Messenger.AddInfo(Messages.MSG_PROCESSING_STARTED);
-            MessageBox.Show("Not impolemented yet!", "");
-            foreach (CkanNode mod in model.Nodes)
+
+            foreach (CkanNode modInfo in model.Nodes.Cast<CkanNode>().SelectMany(mod => mod.Nodes.Cast<CkanNode>().Where(modInfo => modInfo.Added != modInfo.Checked)))
             {
-                foreach (CkanNode modInfo in mod.Nodes)
-                {
-                    if (modInfo.Added != modInfo.Checked)
-                        modInfo.Added = modInfo.Checked;
-                }
+                // TODO: Do the real work
+                modInfo.Added = modInfo.Checked;
             }
 
             Messenger.AddInfo(Messages.MSG_PROCESSING_DONE);

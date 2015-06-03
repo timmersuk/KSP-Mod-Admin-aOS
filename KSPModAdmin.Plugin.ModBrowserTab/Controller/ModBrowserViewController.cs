@@ -26,7 +26,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
         /// </summary>
         public static event ModBrowserInitCompleteHandler ModBrowserInitComplete;
 
-        public static ModBrowserRegister modBrowserRegister = new ModBrowserRegister();
+        private static ModBrowserRegister modBrowserRegister = new ModBrowserRegister();
 
 
         /// <summary>
@@ -71,6 +71,10 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
 
         #endregion
 
+        /// <summary>
+        /// Adds a ModBrowser to the register of all known ModBrowser.
+        /// </summary>
+        /// <param name="modBrowser">The ModBrowser to add.</param>
         public static void RegisterModBrowser(IKSPMAModBrowser modBrowser)
         {
             if (!modBrowserRegister.Add(modBrowser))
@@ -79,6 +83,10 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
             View.AddModBrowser(modBrowser);
         }
 
+        /// <summary>
+        /// Removes a ModBrowser from the register.
+        /// </summary>
+        /// <param name="modBrowser">The ModBrowser to remove.</param>
         public static void UnregisterModBrowser(IKSPMAModBrowser modBrowser)
         {
             if (!modBrowserRegister.Remove(modBrowser))
@@ -87,6 +95,10 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
             View.RemoveModBrowser(modBrowser);
         }
 
+        /// <summary>
+        /// Removes the named ModBrowser from the register.
+        /// </summary>
+        /// <param name="modBrowserName">Name of the ModBrowser to remove.</param>
         public static void UnregisterModBrowserByName(string modBrowserName)
         {
             if (!modBrowserRegister.RemoveByName(modBrowserName))

@@ -47,6 +47,9 @@
       <Value>init</Value>
       <Value>cfg</Value>
       <Value>lbl</Value>
+      <Value>Ckan</Value>
+      <Value>stackoverflow</Value>
+      <Value>plugable</Value>
     </CollectionProperty>
   </GlobalSettings>
   <Parsers>

@@ -1,5 +1,8 @@
-﻿namespace KSPMODAdmin.Core.Utils.Ckan
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace KSPMODAdmin.Core.Utils.Ckan
 {
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
     public class CkanRelation
     {
         public string name = string.Empty;
