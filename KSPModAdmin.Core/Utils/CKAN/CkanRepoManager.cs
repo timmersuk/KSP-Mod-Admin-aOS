@@ -14,9 +14,18 @@ namespace KSPMODAdmin.Core.Utils.Ckan
     /// </summary>
     public class CkanRepoManager
     {
+        private const string EXT_RAR = ".rar";
+
+        /// <summary>
+        /// URL to the default Ckan Repository.
+        /// </summary>
         public static readonly Uri DefaultRepoURL = new Uri("https://github.com/KSP-CKAN/CKAN-meta/archive/master.zip");
+
+        /// <summary>
+        /// URL to the Ckan Repository list of available repositories.
+        /// </summary>
         public static readonly Uri MasterRepoListURL = new Uri("http://api.ksp-ckan.org/mirrors");
-        public static string EXT_RAR = ".rar";
+
 
         /// <summary>
         /// Downloads the list of Ckan Repositories from the passed URL.

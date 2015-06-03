@@ -6,6 +6,9 @@ using KSPModAdmin.Plugin.ModBrowserTab.Properties;
 
 namespace KSPModAdmin.Plugin.ModBrowserTab.Model
 {
+    /// <summary>
+    /// Enumeration of possible CkanNode types.
+    /// </summary>
     public enum CkanNodeType
     {
         Unknown,
@@ -13,22 +16,56 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
         ModInfo
     }
 
+    /// <summary>
+    /// Model class for the CkanTreeModel.
+    /// </summary>
     public class CkanNode : Node
     {
         private CkanMod mod;
         private CkanModInfo modInfo;
         private CkanNodeType type;
 
+        /// <summary>
+        /// Name of the node (display text).
+        /// </summary>
         public string Name { get { return GetName(); } }
+
+        /// <summary>
+        /// Version of the mod.
+        /// </summary>
         public string Version { get { return GetVersion(); } }
+
+        /// <summary>
+        /// Author of the mod.
+        /// </summary>
         public string Author { get { return GetAuthor(); } }
+
+        /// <summary>
+        /// Description of the mod.
+        /// </summary>
         public string Description { get { return GetDescription(); } }
+
+        /// <summary>
+        /// Flag to determine if this mod should be installed or not.
+        /// </summary>
         public bool Checked { get; set; }
+
+        /// <summary>
+        /// Flag to determine if this mod is already added to the ModSelection.
+        /// </summary>
         public bool Added { get; set; }
+
+        /// <summary>
+        /// Flag to determine if a child of this mod is added.
+        /// </summary>
         public bool ChildAdded
         {
             get { return Nodes.Cast<CkanNode>().Any(c => c.Added); }
         }
+
+        /// <summary>
+        /// Gets the icon that should be used in the TreeView.
+        /// </summary>
         public Image Icon
         {
             get
@@ -41,11 +78,17 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
         }
 
 
+        /// <summary>
+        /// Creates a empty instance of the class CkanNode.
+        /// </summary>
         public CkanNode()
         {
             type = CkanNodeType.Unknown;
         }
 
+        /// <summary>
+        /// Creates instance of the class CkanNode as a CkanMod representation.
+        /// </summary>
         public CkanNode(CkanMod mod)
         {
             this.mod = mod;
@@ -55,13 +98,17 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
                 Nodes.Add(new CkanNode(version));
         }
 
+        /// <summary>
+        /// Creates instance of the class CkanNode as a CkanModInfo representation.
+        /// </summary>
         public CkanNode(CkanModInfo version)
         {
             this.modInfo = version;
             this.type = CkanNodeType.ModInfo;
         }
 
-        public string GetName()
+
+        private string GetName()
         {
             switch (type)
             {
@@ -74,7 +121,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
             return string.Empty;
         }
 
-        public string GetVersion()
+        private string GetVersion()
         {
             switch (type)
             {
@@ -87,7 +134,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
             return string.Empty;
         }
 
-        public string GetAuthor()
+        private string GetAuthor()
         {
             switch (type)
             {
@@ -100,7 +147,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
             return string.Empty;
         }
 
-        public string GetDescription()
+        private string GetDescription()
         {
             switch (type)
             {
