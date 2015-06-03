@@ -20,7 +20,8 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
         public string Version { get { return GetVersion(); } }
         public string Author { get { return GetAuthor(); } }
         public string Description { get { return GetDescription(); } }
-        public bool Install { get; set;}
+        public bool Checked { get; set; }
+        public bool Added { get; set; }
 
         public CkanNode()
         {

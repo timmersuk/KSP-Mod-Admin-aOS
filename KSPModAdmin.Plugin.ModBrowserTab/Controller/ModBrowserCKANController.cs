@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml;
 using KSPModAdmin.Core;
-using KSPModAdmin.Core.Controller;
-using KSPModAdmin.Core.Utils;
 using KSPMODAdmin.Core.Utils.Ckan;
-using KSPModAdmin.Core.Utils.Localization;
 using KSPModAdmin.Plugin.ModBrowserTab.Model;
 using KSPModAdmin.Plugin.ModBrowserTab.Views;
 
@@ -91,7 +87,9 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
         {
             try
             {
+                CkanRepository last = View.SelectedRepository;
                 View.Repositories = CkanRepoManager.GetRepositoryList(CkanRepoManager.MasterRepoListURL);
+                View.SelectedRepository = last;
             }
             catch (Exception ex)
             {
@@ -99,33 +97,36 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
             }
         }
 
-        public static void RefreshCkanArchive(CkanRepository sel, bool forceDownload = false)
+        public static void RefreshCkanArchive(CkanRepository repo, bool forceDownload = false)
         {
+            model.Nodes.Clear();
+
+            if (repo == null) 
+                return;
+
             var parent = View.Parent as ucModBrowserView;
             if (parent != null)
                 parent.ShowProcessing = true;
             EventDistributor.InvokeAsyncTaskStarted(Instance);
 
-            model.Nodes.Clear();
-
+            CkanArchive archive = null;
             AsyncTask<CkanTreeModel>.DoWork(() =>
                 {
-                    CkanArchive archive = null;
-                    if (!forceDownload && archives.ContainsKey(sel.name))
-                        archive = archives[sel.name];
+                    if (!forceDownload && archives.ContainsKey(repo.name))
+                        archive = archives[repo.name];
                     else
                     {
-                        var fullpath = string.Format("{0}_{1}", sel.name, Path.GetFileName(sel.uri.AbsolutePath));
+                        var fullpath = string.Format("{0}_{1}", repo.name, Path.GetFileName(repo.uri.AbsolutePath));
                         if (!forceDownload && File.Exists(fullpath))
                             archive = CkanRepoManager.CreateRepositoryArchive(fullpath);
                         else
-                            archive = CkanRepoManager.GetRepositoryArchive(sel, fullpath);
-                        archive.Repository = sel;
+                            archive = CkanRepoManager.GetRepositoryArchive(repo, fullpath);
+                        archive.Repository = repo;
 
-                        if (archives.ContainsKey(sel.name))
-                            archives[sel.name] = archive;
+                        if (archives.ContainsKey(repo.name))
+                            archives[repo.name] = archive;
                         else
-                            archives.Add(sel.name, archive);
+                            archives.Add(repo.name, archive);
                     }
 
                     var newModel = new CkanTreeModel();
@@ -144,6 +145,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
                     {
                         model = newModel;
                         View.Model = model;
+                        View.CountLabelText = string.Format(Messages.MSG_MODBROWSER_CKAN_COUNT_TEXT, archive.Mods.Count, model.Nodes.Count);
                     }
                 });
         }

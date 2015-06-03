@@ -6,6 +6,23 @@
   <String Name="UcModBrowserCKANView_Item_01" Value="(T)Version"/>
   <String Name="UcModBrowserCKANView_Item_02" Value="(T)Author"/>
   <String Name="UcModBrowserCKANView_Item_03" Value="(T)Description"/>
+  
+  <String Name="MSG_MODBROWSER_CKAN_COUNT_TEXT" Value="(T){0} ({1}) Mods"/>
+  
+  <Control Name="tslModBrowser" Value="(T)Mod Browser:"/>
+  <Control Name="lblModBrowserTabPleaseSelectModBrowser" Value="(T)Please select a ModBrowser..."/>
+
+  <Control Name="tsbModBrowserCkanRefresh" Value="tsbModBrowserCkanRefresh">
+    <ChildControl Name="tsbModBrowserCkanRefresh_ToolTip" Value="(T)Refresh^Refreshes the selected repository and redownloads the repository archive."/>
+  </Control>
+  <Control Name="tslModBrowserCkanRepository" Value="(T)Repository:"/>
+  <Control Name="lblModBrowserCkanSelectRepository" Value="(T)Please select a Repository..."/>
+  <Control Name="cbModBrowserCkanJustAdd" Value="(T)Just add to ModSelection or deinstall.">
+    <ChildControl Name="cbModBrowserCkanJustAdd_ToolTip" Value="(T)When checked KMA² will only add a mod during processing and won't install it.^To insatll these mods you have to switch to the ModSelection tab."/>
+  </Control>
+  <Control Name="btnModBrowserCkanProcessChanges" Value="(T)Process changes">
+    <ChildControl Name="btnModBrowserCkanProcessChanges_ToolTip" Value="(T)Process changes^Starts the processing of the changes made in the selection.^Adds (and installs) the new checked mods and removes the unchecked ones."/>
+  </Control>
 </Language>
   
   

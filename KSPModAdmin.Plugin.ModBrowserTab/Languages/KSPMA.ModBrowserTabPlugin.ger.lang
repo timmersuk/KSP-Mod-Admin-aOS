@@ -6,6 +6,23 @@
   <String Name="UcModBrowserCKANView_Item_01" Value="Version"/>
   <String Name="UcModBrowserCKANView_Item_02" Value="Autor"/>
   <String Name="UcModBrowserCKANView_Item_03" Value="Beschreibung"/>
+  
+  <String Name="MSG_MODBROWSER_CKAN_COUNT_TEXT" Value="{0} ({1}) Mods"/>
+  
+  <Control Name="tslModBrowser" Value="Mod Browser:"/>
+  <Control Name="lblModBrowserTabPleaseSelectModBrowser" Value="Bitte wähle einen ModBrowser..."/>
+
+  <Control Name="tsbModBrowserCkanRefresh" Value="tsbModBrowserCkanRefresh">
+    <ChildControl Name="tsbModBrowserCkanRefresh_ToolTip" Value="Aktualisieren^Aktualisiert das ausgewähle Quelle und downloaded das Quellarchive erneut."/>
+  </Control>
+  <Control Name="tslModBrowserCkanRepository" Value="Quelle:"/>
+  <Control Name="lblModBrowserCkanSelectRepository" Value="Bitte wähle eine Quelle..."/>
+  <Control Name="cbModBrowserCkanJustAdd" Value="Nur hinzufügen oder entfernen">
+    <ChildControl Name="cbModBrowserCkanJustAdd_ToolTip" Value="Wenn ausgewählt fügt KMA2 die neuen mod nur in die ModSelection ein (ohne sie zu installieren).^Diese Mods müssen dann über die ModSelection installiert werden^Abgewählte Mods werden normal deinstalliert und aus der ModSelection entfernt."/>
+  </Control>
+  <Control Name="btnModBrowserCkanProcessChanges" Value="Änderungen bearbeiten">
+    <ChildControl Name="btnModBrowserCkanProcessChanges_ToolTip" Value="Änderungen bearbeiten^Startet die Bearbeitung aller Änderungen. Neu hinzugefügte Mods werden der ModSelection hinzugefügt (und installiert),^Abgewählte Mods werden normal deinstalliert und aus der ModSelection entfernt."/>
+  </Control>
 </Language>
   
   

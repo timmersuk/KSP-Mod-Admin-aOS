@@ -29,31 +29,31 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.ttPlugin = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.ttModBrowser = new System.Windows.Forms.ToolTip(this.components);
+            this.tsModBrowser = new System.Windows.Forms.ToolStrip();
             this.tslModBrowser = new System.Windows.Forms.ToolStripLabel();
             this.cbModBrowser = new System.Windows.Forms.ToolStripComboBox();
             this.tspbModBrowserProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.tslModBrowserProcessing = new System.Windows.Forms.ToolStripLabel();
             this.lblModBrowserTabPleaseSelectModBrowser = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.toolStrip1.SuspendLayout();
+            this.tsModBrowser.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // tsModBrowser
             // 
-            this.toolStrip1.AutoSize = false;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsModBrowser.AutoSize = false;
+            this.tsModBrowser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tslModBrowser,
             this.cbModBrowser,
             this.tspbModBrowserProgressBar,
             this.tslModBrowserProcessing});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(675, 39);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.tsModBrowser.Location = new System.Drawing.Point(0, 0);
+            this.tsModBrowser.Name = "tsModBrowser";
+            this.tsModBrowser.Size = new System.Drawing.Size(675, 39);
+            this.tsModBrowser.TabIndex = 0;
+            this.tsModBrowser.Text = "toolStrip1";
             // 
             // tslModBrowser
             // 
@@ -115,14 +115,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.tsModBrowser);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(450, 400);
             this.Name = "ucModBrowserView";
             this.Size = new System.Drawing.Size(675, 442);
             this.Load += new System.EventHandler(this.ucPluginView_Load);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.tsModBrowser.ResumeLayout(false);
+            this.tsModBrowser.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -131,8 +131,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolTip ttPlugin;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolTip ttModBrowser;
+        private System.Windows.Forms.ToolStrip tsModBrowser;
         private System.Windows.Forms.ToolStripLabel tslModBrowser;
         private System.Windows.Forms.ToolStripComboBox cbModBrowser;
         private System.Windows.Forms.ToolStripProgressBar tspbModBrowserProgressBar;

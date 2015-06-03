@@ -48,6 +48,7 @@ namespace KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.Helper
                         columnItem.DataPropertyName = ((NodeCheckBox)nodeControl).DataPropertyName;
                         columnItem.EditEnabled = ((NodeCheckBox)nodeControl).EditEnabled;
                         columnItem.LeftMargin = ((NodeCheckBox)nodeControl).LeftMargin;
+                        columnItem.HorizontalAlign = ((NodeCheckBox)nodeControl).HorizontalAlign;
                         break;
 
                     case ColumnItemType.NodeIcon:

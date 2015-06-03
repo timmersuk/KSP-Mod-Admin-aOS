@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
+using System.Linq;
 using System.Windows.Forms;
-using KSPModAdmin.Core;
 using KSPModAdmin.Core.Controller;
 using KSPMODAdmin.Core.Utils.Ckan;
 using KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.Helper;
@@ -19,6 +18,8 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
         #region Member
 
         private CkanRepositories repositories;
+        private bool updating = false;
+        private bool firstStart = true;
 
         #endregion
 
@@ -36,6 +37,12 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
             set { tvCkanRepositories.Model = value; }
         }
 
+        public string CountLabelText
+        {
+            get { return lblModBrowserCkanCount.Text; }
+            set { lblModBrowserCkanCount.Text = value; }
+        }
+
         public CkanRepositories Repositories
         {
             get { return repositories; }
@@ -46,6 +53,23 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
                 cbModBrowserCkanRepository.Items.Clear();
                 foreach (var repo in repositories.repositories)
                     cbModBrowserCkanRepository.Items.Add(repo);
+            }
+        }
+
+        public CkanRepository SelectedRepository
+        {
+            get { return cbModBrowserCkanRepository.SelectedItem as CkanRepository; }
+            set
+            {
+                if (value == null)
+                {
+                    cbModBrowserCkanRepository.SelectedItem = null;
+                }
+                else
+                {
+                    var repo = cbModBrowserCkanRepository.Items.Cast<CkanRepository>().FirstOrDefault(r => r.name == value.name);
+                    cbModBrowserCkanRepository.SelectedItem = repo;
+                }
             }
         }
 
@@ -67,7 +91,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
                             new ColumnItemData()
                             {
                                 Type = ColumnItemType.NodeCheckBox,
-                                DataPropertyName = "Install",
+                                DataPropertyName = "Checked",
                                 EditEnabled = true,
                                 LeftMargin = 0
                             },
@@ -163,13 +187,30 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
             TreeViewAdvColumnHelper.ColumnsToTreeViewAdv(tvCkanRepositories, Columns);
         }
 
-        private void cbModBrowserCkanRepository_SelectedIndexChanged(object sender, EventArgs e)
+        private void tsbModBrowserCkanRefresh_Click(object sender, EventArgs e)
         {
             var sel = cbModBrowserCkanRepository.SelectedItem as CkanRepository;
             if (sel == null)
                 return;
 
-            ModBrowserCKANController.RefreshCkanArchive(sel, sender as ToolStripButton != null);
+            updating = true;
+            ModBrowserCKANController.RefreshCkanRepositories();
+            ModBrowserCKANController.RefreshCkanArchive(cbModBrowserCkanRepository.SelectedItem as CkanRepository, true);
+            updating = false;
+        }
+
+        private void cbModBrowserCkanRepository_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (updating)
+                return;
+
+            var sel = cbModBrowserCkanRepository.SelectedItem as CkanRepository;
+            tableLayoutPanel1.Visible = (sel == null);
+
+            if (sel != null)
+                ModBrowserCKANController.RefreshCkanArchive(sel, firstStart);
+
+            firstStart = false;
         }
 
         private void cbModBrowserCkanRepository_DropDown(object sender, EventArgs e)
@@ -241,6 +282,8 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
             cbModBrowserCkanRepository.Enabled = enable;
             tsbModBrowserCkanRefresh.Enabled = enable;
             tvCkanRepositories.Enabled = enable;
+            cbModBrowserCkanJustAdd.Enabled = enable;
+            btnModBrowserCkanProcessChanges.Enabled = enable;
         }
     }
 }

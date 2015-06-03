@@ -135,6 +135,15 @@
   <ItemGroup>
     <None Include="Resources\earth_window.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\component_gearwheel_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\components_gearwheel_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\replace_24x24.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /E /Y /R /I "$(ProjectDir)Languages" "$(SolutionDir)KSPModAdmin\$(OutDir)lang"</PostBuildEvent>
