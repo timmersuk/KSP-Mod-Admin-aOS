@@ -79,6 +79,7 @@
   <String Name="UcCraftsTabView_Item_02" Value="Folder"/>
   <String Name="UcCraftsTabView_Item_03" Value="Version"/>
   <String Name="UcCraftsTabView_Item_04" Value="Mods"/>
+  <String Name="UcCraftsTabView_Item_05" Value="Path"/>
 
   <String Name="MSG_CRAFTS_COUNT_TEXT" Value="{0} ({1}) Crafts"/>
   <String Name="MSG_CRAFT_SCAN_STARTED" Value="Crafts scan started..."/>

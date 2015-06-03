@@ -167,6 +167,24 @@ namespace KSPModAdmin.Plugin.PartsAndCraftsTab.Views
                                 LeftMargin = 3
                             }
                         }
+                    },
+                    new ColumnData()
+                    {
+                        Name = "Path",
+                        Header = Localizer.GlobalInstance["UcCraftsTabView_Item_05"], // "FilePath",
+                        SortOrder = SortOrder.None,
+                        TooltipText = null,
+                        Width = 200,
+                        Items = new List<ColumnItemData>()
+                        {
+                            new ColumnItemData()
+                            {
+                                Type = ColumnItemType.NodeTextBox,
+                                DataPropertyName = "FilePathRelative",
+                                IncrementalSearchEnabled = true,
+                                LeftMargin = 3
+                            }
+                        }
                     }
                 };
 

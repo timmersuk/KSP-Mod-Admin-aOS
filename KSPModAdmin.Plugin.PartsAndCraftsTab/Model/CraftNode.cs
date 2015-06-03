@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KSPModAdmin.Core.Utils;
 using KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree;
 
 namespace KSPModAdmin.Plugin.PartsAndCraftsTab.Model
@@ -27,6 +28,11 @@ namespace KSPModAdmin.Plugin.PartsAndCraftsTab.Model
         /// Relative path to the file on HD.
         /// </summary>
         public string FilePath { get; set; }
+        
+        /// <summary>
+        /// Relative path to the file on HD.
+        /// </summary>
+        public string FilePathRelative { get { return KSPPathHelper.GetRelativePath(FilePath); } }
 
         /// <summary>
         /// Folder of the craft.

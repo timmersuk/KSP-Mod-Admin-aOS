@@ -79,7 +79,8 @@
   <String Name="UcCraftsTabView_Item_02" Value="Ordner"/>
   <String Name="UcCraftsTabView_Item_03" Value="Version"/>
   <String Name="UcCraftsTabView_Item_04" Value="Mods"/>
-  
+  <String Name="UcCraftsTabView_Item_05" Value="Pfad"/>
+
   <String Name="MSG_CRAFTS_COUNT_TEXT" Value="{0} ({1}) Flugkörper"/>
   <String Name="MSG_CRAFT_SCAN_STARTED" Value="Flugkörperscann gestartet..."/>
   <String Name="MSG_CRAFT_SCAN_DONE" Value="Flugkörperscann beendet."/>

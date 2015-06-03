@@ -172,7 +172,8 @@ namespace KSPModAdmin.Plugin.PartsAndCraftsTab.Controller
                     // Get *.craft files from additional folders.
                     string path1 = KSPPathHelper.GetPath(KSPPaths.VAB);
                     string path2 = KSPPathHelper.GetPath(KSPPaths.SPH);
-                    string[] addPaths = new[] { path1, path2 };
+                    string path3 = KSPPathHelper.GetPath(KSPPaths.Saves);
+                    string[] addPaths = new[] { path1, path2, path3 };
                     foreach (var path in addPaths)
                     {
                         string[] files2 = Directory.GetFiles(path, EXTENSION_CRAFT, SearchOption.AllDirectories);
