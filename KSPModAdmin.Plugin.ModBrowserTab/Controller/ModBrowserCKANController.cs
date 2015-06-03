@@ -19,7 +19,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
     {
         #region Mamber
 
-        private static string ckanArchiveFolder = "CKAN_Archives";
+        private const string CkanArchiveFolder = "CKAN_Archives";
         private static ModBrowserCKANController instance = null;
         private static CkanTreeModel model = new CkanTreeModel();
         private static Dictionary<string, CkanArchive> archives = new Dictionary<string, CkanArchive>();
@@ -90,21 +90,40 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
         /// Downloads the CKAN Repositories from CkanRepoManager.MasterRepoListURL.
         /// And updates the View.
         /// </summary>
-        public static void RefreshCkanRepositories()
+        /// <param name="finishedCallback">Optional callback function. Will be called after finishing the async get.</param>
+        public static void RefreshCkanRepositories(Action finishedCallback = null)
         {
-            try
-            {
-                Messenger.AddInfo(Messages.MSG_REFRESHING_REPOSITORIES);
-                CkanRepository last = View.SelectedRepository;
-                View.Repositories = CkanRepoManager.GetRepositoryList(CkanRepoManager.MasterRepoListURL);
-                View.SelectedRepository = last;
-            }
-            catch (Exception ex)
-            {
-                Messenger.AddError(string.Format(Messages.MSG_ERROR_DURING_REFRESH_REPOSITORIES_0, ex.Message), ex);
-            }
+            var parent = View.Parent as ucModBrowserView;
+            if (parent != null)
+                parent.ShowProcessing = true;
 
-            Messenger.AddInfo(Messages.MSG_REFRESHING_REPOSITORIES_DONE);
+            Messenger.AddInfo(Messages.MSG_REFRESHING_REPOSITORIES);
+            EventDistributor.InvokeAsyncTaskStarted(Instance);
+            AsyncTask<CkanRepositories>.DoWork(() =>
+                {
+                    return CkanRepoManager.GetRepositoryList(CkanRepoManager.MasterRepoListURL);
+                },
+                (reulst, ex) =>
+                {
+                    EventDistributor.InvokeAsyncTaskDone(Instance);
+
+                    if (parent != null)
+                        parent.ShowProcessing = false;
+
+                    if (ex != null)
+                        Messenger.AddError(string.Format(Messages.MSG_ERROR_DURING_REFRESH_REPOSITORIES_0, ex.Message), ex);
+                    else
+                    { 
+                        CkanRepository last = View.SelectedRepository;
+                        View.Repositories = CkanRepoManager.GetRepositoryList(CkanRepoManager.MasterRepoListURL);
+                        View.SelectedRepository = last;
+                    }
+
+                    Messenger.AddInfo(Messages.MSG_REFRESHING_REPOSITORIES_DONE);
+
+                    if (finishedCallback != null)
+                        finishedCallback();
+                });
         }
 
         /// <summary>
@@ -112,7 +131,8 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
         /// </summary>
         /// <param name="repo">The Ckan Repository to get the Archive for.</param>
         /// <param name="forceDownload">If false the download will be skipped if a Ckan Repository archive file already exists.</param>
-        public static void RefreshCkanArchive(CkanRepository repo, bool forceDownload = false)
+        /// <param name="finishedCallback">Optional callback function. Will be called after finishing the async get.</param>
+        public static void RefreshCkanArchive(CkanRepository repo, bool forceDownload = false, Action finishedCallback = null)
         {
             model.Nodes.Clear();
 
@@ -143,7 +163,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
                     }
                     else
                     {
-                        var path = Path.Combine(OptionsController.DownloadPath, ckanArchiveFolder);
+                        var path = Path.Combine(OptionsController.DownloadPath, CkanArchiveFolder);
                         if (!Directory.Exists(path))
                         {
                             Messenger.AddInfo(Messages.MSG_CREATE_CKAN_ARCHIVE);
@@ -182,6 +202,9 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
                     }
 
                     Messenger.AddInfo(Messages.MSG_REFRESH_REPOSITORY_DONE);
+
+                    if (finishedCallback != null)
+                        finishedCallback();
                 });
         }
 

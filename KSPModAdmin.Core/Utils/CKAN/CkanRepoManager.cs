@@ -14,8 +14,6 @@ namespace KSPMODAdmin.Core.Utils.Ckan
     /// </summary>
     public class CkanRepoManager
     {
-        private const string EXT_RAR = ".rar";
-
         /// <summary>
         /// URL to the default Ckan Repository.
         /// </summary>

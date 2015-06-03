@@ -222,9 +222,11 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
         private void tsbModBrowserCkanRefresh_Click(object sender, EventArgs e)
         {
             updating = true;
-            ModBrowserCKANController.RefreshCkanRepositories();
-            ModBrowserCKANController.RefreshCkanArchive(cbModBrowserCkanRepository.SelectedItem as CkanRepository, true);
-            updating = false;
+            ModBrowserCKANController.RefreshCkanRepositories(() =>
+                {
+                    ModBrowserCKANController.RefreshCkanArchive(cbModBrowserCkanRepository.SelectedItem as CkanRepository, true);
+                    updating = false;
+                });
         }
 
         private void btnModBrowserCkanProcessChanges_Click(object sender, EventArgs e)
