@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using KSPModAdmin.Core.Controller;
 using KSPMODAdmin.Core.Utils.Ckan;
+using KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree;
 using KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.Helper;
 using KSPModAdmin.Core.Utils.Localization;
 using KSPModAdmin.Core.Views;
@@ -19,7 +20,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
 
         private CkanRepositories repositories;
         private bool updating = false;
-        private bool firstStart = true;
+        private bool firstStart = false;//true;
 
         #endregion
 
@@ -97,10 +98,17 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
                             },
                             new ColumnItemData()
                             {
+                                Type = ColumnItemType.NodeIcon,
+                                DataPropertyName = "Icon",
+                                LeftMargin = 3,
+                                ImageScaleMode = ImageScaleMode.Clip
+                            }, 
+                            new ColumnItemData()
+                            {
                                 Type = ColumnItemType.NodeTextBox,
                                 DataPropertyName = "Name",
                                 IncrementalSearchEnabled = true,
-                                LeftMargin = 3,
+                                LeftMargin = 0,
                             }
                         }
                     },
@@ -185,18 +193,20 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
         {
             // do View related init here or in the PluginViewController.Initialize(...) methode.
             TreeViewAdvColumnHelper.ColumnsToTreeViewAdv(tvCkanRepositories, Columns);
+            ModBrowserCKANController.RefreshCkanRepositories();
         }
 
         private void tsbModBrowserCkanRefresh_Click(object sender, EventArgs e)
         {
-            var sel = cbModBrowserCkanRepository.SelectedItem as CkanRepository;
-            if (sel == null)
-                return;
-
             updating = true;
             ModBrowserCKANController.RefreshCkanRepositories();
             ModBrowserCKANController.RefreshCkanArchive(cbModBrowserCkanRepository.SelectedItem as CkanRepository, true);
             updating = false;
+        }
+
+        private void btnModBrowserCkanProcessChanges_Click(object sender, EventArgs e)
+        {
+            ModBrowserCKANController.ProcessChanges();
         }
 
         private void cbModBrowserCkanRepository_SelectedIndexChanged(object sender, EventArgs e)
@@ -234,6 +244,18 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
 
             if (maxWidth > cb.Width)
                 cb.DropDownWidth = maxWidth;
+        }
+
+        private void tvCkanRepositories_DrawControl(object sender, Core.Utils.Controls.Aga.Controls.Tree.NodeControls.DrawEventArgs e)
+        {
+            var node = e.Node.Tag as CkanNode;
+            if (node == null)
+                return;
+
+            if (node.Added || node.ChildAdded)
+                e.TextColor = OptionsController.ColorModInstalled;
+            //if (node.IsOutdated)
+            //    e.TextColor = OptionsController.ColorModOutdated;
         }
 
         internal void LanguageChanged()

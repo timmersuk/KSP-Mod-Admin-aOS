@@ -23,6 +23,20 @@
   <Control Name="btnModBrowserCkanProcessChanges" Value="Änderungen bearbeiten">
     <ChildControl Name="btnModBrowserCkanProcessChanges_ToolTip" Value="Änderungen bearbeiten^Startet die Bearbeitung aller Änderungen. Neu hinzugefügte Mods werden der ModSelection hinzugefügt (und installiert),^Abgewählte Mods werden normal deinstalliert und aus der ModSelection entfernt."/>
   </Control>
+  
+  <String Name="MSG_REGISTER_MODBROWSER_0" Value="Registriere ModBrowser &quot;{0}&quot;."/>
+  <String Name="MSG_REMOVING_MODBROWSER_0" Value="Entferne ModBrowser &quot;{0}&quot;."/>
+  <String Name="MSG_REFRESHING_REPOSITORIES" Value="Aktualisiere Quellen ..."/>
+  <String Name="MSG_ERROR_DURING_REFRESH_REPOSITORIES_0" Value="Fehler während der Quellenaktualisierung! &quot;{0}&quot;."/>
+  <String Name="MSG_REFRESHING_REPOSITORIES_DONE" Value="Aktualisiere Quellen fertig.."/>
+  <String Name="MSG_DOWNLOADPATH_MISSING" Value="Downloadpfad fehlt!"/>
+  <String Name="MSG_REFRESHING_REPOSITORY_ARCHIVE_0" Value="Aktualisiere Quellenarchive &quot;{0}&quot;..."/>
+  <String Name="MSG_USING_CACHED_ARCHIVE" Value="Using cached archive."/>
+  <String Name="MSG_CREATE_CKAN_ARCHIVE" Value="Erzeuge CKAN archive ordner."/>
+  <String Name="MSG_ERROR_DURING_REFRESH_REPOSITORY_ARCHIVE_0" Value="Fehler während Quellenarchiveaktualisierung! &quot;{0}&quot;"/>
+  <String Name="MSG_REFRESH_REPOSITORY_DONE" Value="Aktualisiere Quellenarchive ferig."/>
+  <String Name="MSG_PROCESSING_STARTED" Value="Änderungen bearbeiten gestartet..."/>
+  <String Name="MSG_PROCESSING_DONE" Value="Änderungen bearbeiten fertig."/>
 </Language>
   
   

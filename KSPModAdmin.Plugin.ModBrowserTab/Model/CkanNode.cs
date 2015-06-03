@@ -1,5 +1,8 @@
-﻿using KSPMODAdmin.Core.Utils.Ckan;
+﻿using System.Drawing;
+using System.Linq;
+using KSPMODAdmin.Core.Utils.Ckan;
 using KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree;
+using KSPModAdmin.Plugin.ModBrowserTab.Properties;
 
 namespace KSPModAdmin.Plugin.ModBrowserTab.Model
 {
@@ -22,6 +25,22 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Model
         public string Description { get { return GetDescription(); } }
         public bool Checked { get; set; }
         public bool Added { get; set; }
+
+        public bool ChildAdded
+        {
+            get { return Nodes.Cast<CkanNode>().Any(c => c.Added); }
+        }
+
+        public Image Icon
+        {
+            get
+            {
+                if (Added)
+                    return (modInfo != null) ? Resources.component_add : Resources.folder_add;
+                else
+                    return (modInfo != null) ? Resources.component : Resources.folder ;
+            }
+        }
 
         public CkanNode()
         {

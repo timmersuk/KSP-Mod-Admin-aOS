@@ -229,6 +229,25 @@ namespace KSPModAdmin.Core.Controller
         }
 
         /// <summary>
+        /// Gets the flag that determine if the DownloadPath is valid or not.
+        /// </summary>
+        public static bool HasValidDownloadPath
+        {
+            get
+            {
+                try
+                {
+                    return Directory.Exists(DownloadPath);
+                }
+                catch
+                {
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the selected KSP path.
         /// </summary>
         public static NoteNode SelectedKnownKSPPath

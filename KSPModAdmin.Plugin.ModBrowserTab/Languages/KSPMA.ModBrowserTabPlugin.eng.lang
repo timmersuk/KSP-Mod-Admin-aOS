@@ -23,7 +23,21 @@
   <Control Name="btnModBrowserCkanProcessChanges" Value="Process changes">
     <ChildControl Name="btnModBrowserCkanProcessChanges_ToolTip" Value="Process changes^Starts the processing of the changes made in the selection.^New checked mods will be added to the ModSelection (and installed),^The unchecked ones will be removed and deinstalled."/>
   </Control>
-  
+
+  <String Name="MSG_REGISTER_MODBROWSER_0" Value="Register ModBrowser &quot;{0}&quot;."/>
+  <String Name="MSG_REMOVING_MODBROWSER_0" Value="Removing ModBrowser &quot;{0}&quot;."/>
+  <String Name="MSG_REFRESHING_REPOSITORIES" Value="Refreshing repositories ..."/>
+  <String Name="MSG_ERROR_DURING_REFRESH_REPOSITORIES_0" Value="Error during refreshing repositories! &quot;{0}&quot;."/>
+  <String Name="MSG_REFRESHING_REPOSITORIES_DONE" Value="Refreshing repositories done."/>
+  <String Name="MSG_DOWNLOADPATH_MISSING" Value="Download path missing."/>
+  <String Name="MSG_REFRESHING_REPOSITORY_ARCHIVE_0" Value="Refreshing repository archive &quot;{0}&quot;..."/>
+  <String Name="MSG_USING_CACHED_ARCHIVE" Value="Using cached archive."/>
+  <String Name="MSG_CREATE_CKAN_ARCHIVE" Value="Create CKAN archives folder."/>
+  <String Name="MSG_ERROR_DURING_REFRESH_REPOSITORY_ARCHIVE_0" Value="Error during refreshing repository archive! &quot;{0}&quot;"/>
+  <String Name="MSG_REFRESH_REPOSITORY_DONE" Value="Refreshing repository archive done."/>
+  <String Name="MSG_PROCESSING_STARTED" Value="Processing changes started..."/>
+  <String Name="MSG_PROCESSING_DONE" Value="Processing changes done."/>
+
 </Language>
   
   

@@ -124,15 +124,15 @@ namespace KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.NodeControls
 		            if (newWidth > 1)
 		            {
                         int deltaToCenter = newWidth / 2;
-		                rect = new Rectangle(new Point(r.X + deltaToCenter, rect.Y), new Size(bs.Width, bs.Height));
+                        rect = new Rectangle(new Point(r.X + LeftMargin + deltaToCenter, rect.Y), new Size(bs.Width, bs.Height));
 		            }
 		            break;
 		        case HorizontalAlignment.Right:
                     int deltaToRight = bs.Width - s.Width;
-		            rect = new Rectangle(new Point(r.X + deltaToRight, rect.Y), new Size(bs.Width, bs.Height));
+                    rect = new Rectangle(new Point(r.X + LeftMargin + deltaToRight, rect.Y), new Size(bs.Width, bs.Height));
 		            break;
 		        default:
-		            rect = new Rectangle(new Point(r.X, rect.Y), new Size(bs.Width, bs.Height));
+                    rect = new Rectangle(new Point(r.X + LeftMargin, rect.Y), new Size(bs.Width, bs.Height));
 		            break;
 		    }
 

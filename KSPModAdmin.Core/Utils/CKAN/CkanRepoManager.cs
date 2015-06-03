@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
+using KSPModAdmin.Core.Utils;
 using Newtonsoft.Json;
 using SharpCompress.Archive;
 
@@ -15,9 +17,14 @@ namespace KSPMODAdmin.Core.Utils.Ckan
 
         public static CkanRepositories GetRepositoryList(Uri repoListURL)
         {
-            WebClient client = new WebClient();
-            string content = client.DownloadString(repoListURL);
-            return JsonConvert.DeserializeObject<CkanRepositories>(content);
+            Messenger.AddInfo(string.Format("Downloading repository list from \"{0}\"...", repoListURL.AbsoluteUri));
+            
+            string content = Www.Load(repoListURL.AbsoluteUri);
+            var repos = JsonConvert.DeserializeObject<CkanRepositories>(content);
+            
+            Messenger.AddInfo(string.Format("Downloading repository list done. {0} repositories found.", repos.repositories.Length));
+
+            return repos;
         }
 
         public static CkanRepository GetRepository(CkanRepositories repositories, string repoName)
@@ -27,8 +34,10 @@ namespace KSPMODAdmin.Core.Utils.Ckan
 
         public static CkanArchive GetRepositoryArchive(CkanRepository repo, string fullpath)
         {
+            Messenger.AddInfo(string.Format("Downloading repository archive \"{0}\" from \"{1}\"...", repo.name, repo.uri.AbsoluteUri));
             WebClient client = new WebClient();
             client.DownloadFile(repo.uri, fullpath);
+            Messenger.AddInfo(string.Format("Downloading repository archive \"{0}\" done.", repo.name));
 
             return CreateRepositoryArchive(fullpath);
         }
@@ -38,22 +47,20 @@ namespace KSPMODAdmin.Core.Utils.Ckan
             if (string.IsNullOrEmpty(fullpath) || !File.Exists(fullpath))
                 return null;
 
+            Messenger.AddInfo(string.Format("Reading repository archive \"{0}\"...", fullpath));
             var repoArchive = new CkanArchive { FullPath = fullpath };
             using (IArchive archive = ArchiveFactory.Open(repoArchive.FullPath))
             {
-                // Rar files uses \ as path separator.
-                char separator = '/';
-                string extension = Path.GetExtension(repoArchive.FullPath);
-                if (extension != null && extension.Equals(EXT_RAR, StringComparison.CurrentCultureIgnoreCase))
-                    separator = '\\';
-
                 foreach (IArchiveEntry entry in archive.Entries)
                 {
                     if (Path.GetDirectoryName(entry.FilePath).Split(Path.DirectorySeparatorChar).Length != 2)
+                    {
+                        Messenger.AddInfo(string.Format("Archive entry \"{0}\" skipped.", entry.FilePath));
                         continue;
+                    }
 
                     if (entry.IsDirectory)
-                    { 
+                    {
                         var mod = CreateMod(entry);
                         if (mod != null)
                             repoArchive.Mods.Add(mod.Name, mod);
@@ -72,6 +79,7 @@ namespace KSPMODAdmin.Core.Utils.Ckan
                     }
                 }
             }
+            Messenger.AddInfo(string.Format("Reading repository archive \"{0}\" done.", fullpath));
 
             return repoArchive;
         }
@@ -85,6 +93,8 @@ namespace KSPMODAdmin.Core.Utils.Ckan
             mod.ArchivePath = archiveEntry.FilePath;
             mod.Name = GetDirectoryName(archiveEntry.FilePath);
 
+            Messenger.AddInfo(string.Format("Mod \"{0}\" created from \"{1}\"", mod.Name, archiveEntry.FilePath));
+
             return mod;
         }
 
@@ -95,7 +105,9 @@ namespace KSPMODAdmin.Core.Utils.Ckan
             ms.Position = 0;
             var sr = new StreamReader(ms);
             var content = sr.ReadToEnd();
-            return JsonConvert.DeserializeObject<CkanModInfo>(content);
+            var modInfos = JsonConvert.DeserializeObject<CkanModInfo>(content);
+            Messenger.AddInfo(string.Format("ModInfos \"{0}\"-\"{1}\" created from \"{2}\"", modInfos.name, modInfos.version, archiveEntry.FilePath));
+            return modInfos;
         }
 
         private static string GetDirectoryName(string dirPath)

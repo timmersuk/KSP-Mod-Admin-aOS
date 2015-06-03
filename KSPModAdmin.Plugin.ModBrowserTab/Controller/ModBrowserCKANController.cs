@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using KSPModAdmin.Core;
+using KSPModAdmin.Core.Utils;
 using KSPMODAdmin.Core.Utils.Ckan;
 using KSPModAdmin.Plugin.ModBrowserTab.Model;
 using KSPModAdmin.Plugin.ModBrowserTab.Views;
+using KSPModAdmin.Core.Controller;
 
 namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
 {
@@ -16,6 +18,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
     {
         #region Mamber
 
+        private static string CkanArchiveFolder = "CKAN_Archives";
         private static ModBrowserCKANController instance = null;
         private static CkanTreeModel model = new CkanTreeModel();
         private static Dictionary<string, CkanArchive> archives = new Dictionary<string, CkanArchive>();
@@ -49,7 +52,6 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
 
             // Add your stuff to initialize here.
             View.Model = model;
-            RefreshCkanRepositories();
         }
 
         #region EventDistributor callback functions.
@@ -83,18 +85,25 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
 
         #endregion
 
+        /// <summary>
+        /// Downloads the CKAN Repositories from CkanRepoManager.MasterRepoListURL.
+        /// And updates the View.
+        /// </summary>
         public static void RefreshCkanRepositories()
         {
             try
             {
+                Messenger.AddInfo(Messages.MSG_REFRESHING_REPOSITORIES);
                 CkanRepository last = View.SelectedRepository;
                 View.Repositories = CkanRepoManager.GetRepositoryList(CkanRepoManager.MasterRepoListURL);
                 View.SelectedRepository = last;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                Messenger.AddError(string.Format(Messages.MSG_ERROR_DURING_REFRESH_REPOSITORIES_0, ex.Message), ex);
             }
+
+            Messenger.AddInfo(Messages.MSG_REFRESHING_REPOSITORIES_DONE);
         }
 
         public static void RefreshCkanArchive(CkanRepository repo, bool forceDownload = false)
@@ -104,19 +113,39 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
             if (repo == null) 
                 return;
 
+            if (!OptionsController.HasValidDownloadPath)
+            {
+                Messenger.AddInfo(Messages.MSG_DOWNLOADPATH_MISSING);
+                OptionsController.SelectNewDownloadPath();
+                if (!OptionsController.HasValidDownloadPath)
+                    return;
+            }
+
             var parent = View.Parent as ucModBrowserView;
             if (parent != null)
                 parent.ShowProcessing = true;
             EventDistributor.InvokeAsyncTaskStarted(Instance);
+            Messenger.AddInfo(string.Format(Messages.MSG_REFRESHING_REPOSITORY_ARCHIVE_0, repo.name));
 
-            CkanArchive archive = null;
-            AsyncTask<CkanTreeModel>.DoWork(() =>
+            AsyncTask<CkanArchive>.DoWork(() =>
                 {
+                    CkanArchive archive = null;
                     if (!forceDownload && archives.ContainsKey(repo.name))
+                    {
+                        Messenger.AddInfo(Messages.MSG_USING_CACHED_ARCHIVE);
                         archive = archives[repo.name];
+                    }
                     else
                     {
-                        var fullpath = string.Format("{0}_{1}", repo.name, Path.GetFileName(repo.uri.AbsolutePath));
+                        var path = Path.Combine(OptionsController.DownloadPath, CkanArchiveFolder);
+                        if (!Directory.Exists(path))
+                        {
+                            Messenger.AddInfo(Messages.MSG_CREATE_CKAN_ARCHIVE);
+                            Directory.CreateDirectory(path);
+                        }
+
+                        var filename = string.Format("{0}_{1}", repo.name, Path.GetFileName(repo.uri.AbsolutePath));
+                        var fullpath = Path.Combine(path, filename);
                         if (!forceDownload && File.Exists(fullpath))
                             archive = CkanRepoManager.CreateRepositoryArchive(fullpath);
                         else
@@ -129,25 +158,43 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
                             archives.Add(repo.name, archive);
                     }
 
-                    var newModel = new CkanTreeModel();
-                    newModel.AddArchive(archive);
-
-                    return newModel;
+                    return archive;
                 },
-                (newModel, ex) =>
+                (newArchive, ex) =>
                 {
                     if (parent != null)
                         parent.ShowProcessing = false;
                     EventDistributor.InvokeAsyncTaskDone(Instance);
                     if (ex != null)
-                        MessageBox.Show(ex.Message, "Error");
+                    {
+                        Messenger.AddError(string.Format(Messages.MSG_ERROR_DURING_REFRESH_REPOSITORY_ARCHIVE_0, ex.Message), ex);
+                    }
                     else
                     {
-                        model = newModel;
-                        View.Model = model;
-                        View.CountLabelText = string.Format(Messages.MSG_MODBROWSER_CKAN_COUNT_TEXT, archive.Mods.Count, model.Nodes.Count);
+                        model.AddArchive(newArchive);
+                        View.CountLabelText = string.Format(Messages.MSG_MODBROWSER_CKAN_COUNT_TEXT, newArchive.Mods.Count, model.Nodes.Count);
                     }
+
+                    Messenger.AddInfo(Messages.MSG_REFRESH_REPOSITORY_DONE);
                 });
+        }
+
+        public static void ProcessChanges()
+        {
+            Messenger.AddInfo(Messages.MSG_PROCESSING_STARTED);
+            MessageBox.Show("Not impolemented yet!", "");
+            foreach (CkanNode mod in model.Nodes)
+            {
+                foreach (CkanNode modInfo in mod.Nodes)
+                {
+                    if (modInfo.Added != modInfo.Checked)
+                        modInfo.Added = modInfo.Checked;
+                }
+            }
+
+            Messenger.AddInfo(Messages.MSG_PROCESSING_DONE);
+
+            View.InvalidateView();
         }
     }
 }

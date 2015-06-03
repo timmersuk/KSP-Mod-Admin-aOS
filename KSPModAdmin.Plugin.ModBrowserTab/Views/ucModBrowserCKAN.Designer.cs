@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tsModBrowserCkan = new System.Windows.Forms.ToolStrip();
+            this.tsbModBrowserCkanRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tslModBrowserCkanRepository = new System.Windows.Forms.ToolStripLabel();
             this.cbModBrowserCkanRepository = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tvCkanRepositories = new KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.TreeViewAdv();
             this.lblModBrowserCkanCount = new System.Windows.Forms.Label();
             this.ttModBrowserCkan = new System.Windows.Forms.ToolTip(this.components);
             this.cbModBrowserCkanJustAdd = new System.Windows.Forms.CheckBox();
+            this.btnModBrowserCkanProcessChanges = new System.Windows.Forms.Button();
             this.lblModBrowserCkanSelectRepository = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnModBrowserCkanProcessChanges = new System.Windows.Forms.Button();
-            this.tsbModBrowserCkanRefresh = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tsModBrowserCkan.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -60,6 +60,24 @@
             this.tsModBrowserCkan.TabIndex = 0;
             this.tsModBrowserCkan.Text = "toolStrip1";
             // 
+            // tsbModBrowserCkanRefresh
+            // 
+            this.tsbModBrowserCkanRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbModBrowserCkanRefresh.Image = global::KSPModAdmin.Plugin.ModBrowserTab.Properties.Resources.refresh_24x24;
+            this.tsbModBrowserCkanRefresh.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsbModBrowserCkanRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbModBrowserCkanRefresh.Name = "tsbModBrowserCkanRefresh";
+            this.tsbModBrowserCkanRefresh.Size = new System.Drawing.Size(28, 28);
+            this.tsbModBrowserCkanRefresh.Text = "toolStripButton1";
+            this.tsbModBrowserCkanRefresh.ToolTipText = "Refresh^Refreshes the selected repository and redownloads the repository archive." +
+    "";
+            this.tsbModBrowserCkanRefresh.Click += new System.EventHandler(this.tsbModBrowserCkanRefresh_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            // 
             // tslModBrowserCkanRepository
             // 
             this.tslModBrowserCkanRepository.Name = "tslModBrowserCkanRepository";
@@ -70,14 +88,9 @@
             // 
             this.cbModBrowserCkanRepository.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbModBrowserCkanRepository.Name = "cbModBrowserCkanRepository";
-            this.cbModBrowserCkanRepository.Size = new System.Drawing.Size(150, 31);
+            this.cbModBrowserCkanRepository.Size = new System.Drawing.Size(200, 31);
             this.cbModBrowserCkanRepository.DropDown += new System.EventHandler(this.cbModBrowserCkanRepository_DropDown);
             this.cbModBrowserCkanRepository.SelectedIndexChanged += new System.EventHandler(this.cbModBrowserCkanRepository_SelectedIndexChanged);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // tvCkanRepositories
             // 
@@ -88,6 +101,7 @@
             this.tvCkanRepositories.BackColor = System.Drawing.SystemColors.Window;
             this.tvCkanRepositories.DefaultToolTipProvider = null;
             this.tvCkanRepositories.DragDropMarkColor = System.Drawing.Color.Black;
+            this.tvCkanRepositories.GridLineStyle = ((KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.GridLineStyle)((KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.GridLineStyle.Horizontal | KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.GridLineStyle.Vertical)));
             this.tvCkanRepositories.LineColor = System.Drawing.SystemColors.ControlDark;
             this.tvCkanRepositories.Location = new System.Drawing.Point(0, 31);
             this.tvCkanRepositories.Model = null;
@@ -97,6 +111,7 @@
             this.tvCkanRepositories.TabIndex = 1;
             this.tvCkanRepositories.Text = "treeViewAdv1";
             this.tvCkanRepositories.UseColumns = true;
+            this.tvCkanRepositories.DrawControl += new System.EventHandler<KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.NodeControls.DrawEventArgs>(this.tvCkanRepositories_DrawControl);
             // 
             // lblModBrowserCkanCount
             // 
@@ -121,35 +136,6 @@
         "insatll these mods you have to switch to the ModSelection tab.");
             this.cbModBrowserCkanJustAdd.UseVisualStyleBackColor = true;
             // 
-            // lblModBrowserCkanSelectRepository
-            // 
-            this.lblModBrowserCkanSelectRepository.AutoSize = true;
-            this.lblModBrowserCkanSelectRepository.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblModBrowserCkanSelectRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblModBrowserCkanSelectRepository.Location = new System.Drawing.Point(234, 0);
-            this.lblModBrowserCkanSelectRepository.Name = "lblModBrowserCkanSelectRepository";
-            this.lblModBrowserCkanSelectRepository.Size = new System.Drawing.Size(207, 40);
-            this.lblModBrowserCkanSelectRepository.TabIndex = 27;
-            this.lblModBrowserCkanSelectRepository.Text = "Please select a Repository.";
-            this.lblModBrowserCkanSelectRepository.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.lblModBrowserCkanSelectRepository, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 69);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(675, 40);
-            this.tableLayoutPanel1.TabIndex = 30;
-            // 
             // btnModBrowserCkanProcessChanges
             // 
             this.btnModBrowserCkanProcessChanges.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -166,19 +152,36 @@
             this.ttModBrowserCkan.SetToolTip(this.btnModBrowserCkanProcessChanges, "Process changes^Starts the processing of the changes made in the selection.^Adds " +
         "(and installs) the new checked mods and removes the unchecked ones.");
             this.btnModBrowserCkanProcessChanges.UseVisualStyleBackColor = true;
+            this.btnModBrowserCkanProcessChanges.Click += new System.EventHandler(this.btnModBrowserCkanProcessChanges_Click);
             // 
-            // tsbModBrowserCkanRefresh
+            // lblModBrowserCkanSelectRepository
             // 
-            this.tsbModBrowserCkanRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbModBrowserCkanRefresh.Image = global::KSPModAdmin.Plugin.ModBrowserTab.Properties.Resources.refresh_24x24;
-            this.tsbModBrowserCkanRefresh.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.tsbModBrowserCkanRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbModBrowserCkanRefresh.Name = "tsbModBrowserCkanRefresh";
-            this.tsbModBrowserCkanRefresh.Size = new System.Drawing.Size(28, 28);
-            this.tsbModBrowserCkanRefresh.Text = "toolStripButton1";
-            this.tsbModBrowserCkanRefresh.ToolTipText = "Refresh^Refreshes the selected repository and redownloads the repository archive." +
-    "";
-            this.tsbModBrowserCkanRefresh.Click += new System.EventHandler(this.tsbModBrowserCkanRefresh_Click);
+            this.lblModBrowserCkanSelectRepository.AutoSize = true;
+            this.lblModBrowserCkanSelectRepository.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblModBrowserCkanSelectRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblModBrowserCkanSelectRepository.Location = new System.Drawing.Point(228, 0);
+            this.lblModBrowserCkanSelectRepository.Name = "lblModBrowserCkanSelectRepository";
+            this.lblModBrowserCkanSelectRepository.Size = new System.Drawing.Size(207, 40);
+            this.lblModBrowserCkanSelectRepository.TabIndex = 27;
+            this.lblModBrowserCkanSelectRepository.Text = "Please select a Repository.";
+            this.lblModBrowserCkanSelectRepository.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.lblModBrowserCkanSelectRepository, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 69);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(663, 40);
+            this.tableLayoutPanel1.TabIndex = 30;
             // 
             // tableLayoutPanel2
             // 

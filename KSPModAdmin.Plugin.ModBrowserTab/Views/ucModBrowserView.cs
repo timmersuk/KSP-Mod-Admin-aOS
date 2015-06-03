@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using KSPModAdmin.Core.Utils;
 using KSPModAdmin.Core.Views;
 using KSPModAdmin.Plugin.ModBrowserTab.Controller;
 using KSPModAdmin.Plugin.ModBrowserTab.Properties;
@@ -107,6 +108,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
         {
             if (!cbModBrowser.Items.Cast<ModBrowserInfo>().Any(mb => mb.ModBrowserName == modBrowser.ModBrowserName))
             {
+                Messenger.AddInfo(string.Format(Messages.MSG_REGISTER_MODBROWSER_0, modBrowser.ModBrowserName));
                 cbModBrowser.Items.Add(new ModBrowserInfo(modBrowser));
                 Controls.Add(modBrowser.ModBrowserView);
                 modBrowser.ModBrowserView.Dock = DockStyle.Fill;
@@ -134,6 +136,8 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
             var mbInfo = cbModBrowser.Items.Cast<ModBrowserInfo>().FirstOrDefault(x => x.ModBrowserName == modBrowserName);
             if (mbInfo == null)
                 return;
+
+            Messenger.AddInfo(string.Format(Messages.MSG_REMOVING_MODBROWSER_0, mbInfo.ModBrowserName));
 
             if (CurrentModBrowser != null && mbInfo.ModBrowser == CurrentModBrowser)
             {

@@ -56,7 +56,7 @@ namespace KSPModAdmin.Core.Model
                             {
                                 Type = ColumnItemType.NodeIcon,
                                 DataPropertyName = "Icon",
-                                LeftMargin = 1,
+                                LeftMargin = 3,
                                 ImageScaleMode = ImageScaleMode.Clip
                             }, 
                             new ColumnItemData()
@@ -64,7 +64,7 @@ namespace KSPModAdmin.Core.Model
                                 Type = ColumnItemType.NodeTextBox,
                                 DataPropertyName = "Name",
                                 IncrementalSearchEnabled = true,
-                                LeftMargin = 3,
+                                LeftMargin = 0,
                             }
                         }
                     },
