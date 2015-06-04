@@ -9,17 +9,26 @@ using System.Collections.Generic;
 using FolderSelect;
 using KSPModAdmin.Core.Model;
 using KSPModAdmin.Core.Utils;
+using KSPModAdmin.Core.Utils.Logging;
 using KSPModAdmin.Core.Utils.Controls.Aga.Controls.Tree.Helper;
 using KSPModAdmin.Core.Views;
 using SharpCompress.Archive;
 
 namespace KSPModAdmin.Core.Controller
 {
+    public delegate ModNode BeforeAddModHandler(BeforeAddModEventArgs e);
+    public delegate void BeforeModUpdateCheck(BeforeModUpdateCheckEventArgs e);
+    ////public delegate void BeforeUpdateMod(BeforeUpdateModEventArgs e);
+
     /// <summary>
     /// Controller for the ucModSelection.
     /// </summary>
     public class ModSelectionController
     {
+        public static event BeforeAddModHandler BeforeAddMod = null;
+        public static event BeforeModUpdateCheck BeforeModUpdateCheck = null;
+        ////public static event BeforeUpdateMod BeforeUpdateMod = null;
+
         #region Member variables
 
         /// <summary>
@@ -367,10 +376,30 @@ namespace KSPModAdmin.Core.Controller
                     {
                         try
                         {
-                            if (modInfo.LocalPath.EndsWith(Constants.EXT_CRAFT, StringComparison.CurrentCultureIgnoreCase) && File.Exists(modInfo.LocalPath))
+                            bool handled = false;
+                            if (BeforeAddMod != null)
+                            {
+                                try
+                                {
+                                    var args = new BeforeAddModEventArgs(modInfo);
+                                    var node = BeforeAddMod(args);
+                                    handled = args.Handeled;
+                                    if (args.Handeled)
+                                        newNode = node;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Log.AddErrorS("Error during call of BeforeAddMod()", ex);
+                                    handled = false;
+                                }
+                            }
+
+                            if (!handled && modInfo.LocalPath.EndsWith(Constants.EXT_CRAFT, StringComparison.CurrentCultureIgnoreCase) && File.Exists(modInfo.LocalPath))
                                 modInfo.LocalPath = ModZipCreator.CreateZipOfCraftFile(modInfo.LocalPath);
 
-                            newNode = ModNodeHandler.CreateModNode(modInfo);
+                            if (!handled)
+                                newNode = ModNodeHandler.CreateModNode(modInfo);
+
                             if (newNode != null)
                             {
                                 Model.AddMod(newNode);
@@ -1299,24 +1328,44 @@ namespace KSPModAdmin.Core.Controller
         {
             foreach (ModNode mod in mods)
             {
+                bool handled = false;
+                if (BeforeAddMod != null)
+                {
+                    try
+                    {
+                        var args = new BeforeModUpdateCheckEventArgs(mod);
+                        BeforeModUpdateCheck(args);
+                        handled = args.Handeled;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.AddErrorS("Error during call of BeforeModUpdateCheck()", ex);
+                        handled = false;
+                    }
+                }
+
                 try
                 {
-                    ISiteHandler siteHandler = mod.SiteHandler;
-                    if (siteHandler == null)
-                        Messenger.AddInfo(string.Format(Messages.MSG_ERROR_0_NO_VERSIONCONTROL, mod.Name));
-                    else
+                    if (!handled)
                     {
-                        ModInfo newModinfo = null;
-                        Messenger.AddInfo(string.Format(Messages.MSG_UPDATECHECK_FOR_MOD_0_VIA_1, mod.Name, mod.SiteHandlerName));
-                        if (!siteHandler.CheckForUpdates(mod.ModInfo, ref newModinfo))
-                        {
-                            Messenger.AddInfo(string.Format(Messages.MSG_MOD_0_IS_UPTODATE, mod.Name));
-                            mod.IsOutdated = false;
-                        }
+                        ISiteHandler siteHandler = mod.SiteHandler;
+                        if (siteHandler == null)
+                            Messenger.AddInfo(string.Format(Messages.MSG_ERROR_0_NO_VERSIONCONTROL, mod.Name));
                         else
                         {
-                            Messenger.AddInfo(string.Format(Messages.MSG_MOD_0_IS_OUTDATED, mod.Name));
-                            mod.IsOutdated = true;
+                            ModInfo newModinfo = null;
+                            Messenger.AddInfo(string.Format(Messages.MSG_UPDATECHECK_FOR_MOD_0_VIA_1, mod.Name,
+                                mod.SiteHandlerName));
+                            if (!siteHandler.CheckForUpdates(mod.ModInfo, ref newModinfo))
+                            {
+                                Messenger.AddInfo(string.Format(Messages.MSG_MOD_0_IS_UPTODATE, mod.Name));
+                                mod.IsOutdated = false;
+                            }
+                            else
+                            {
+                                Messenger.AddInfo(string.Format(Messages.MSG_MOD_0_IS_OUTDATED, mod.Name));
+                                mod.IsOutdated = true;
+                            }
                         }
                     }
                 }
@@ -1767,4 +1816,34 @@ namespace KSPModAdmin.Core.Controller
             RefreshCheckedStateOfMods(nodes.ToArray());
         }
     }
+
+    public class BeforeAddModEventArgs : EventArgs
+    {
+        public ModInfo ModInfo;
+        public bool Handeled;
+
+        public BeforeAddModEventArgs(ModInfo modInfo)
+        {
+            ModInfo = modInfo;
+            Handeled = false;
+        }
+    }
+
+    public class BeforeModUpdateCheckEventArgs : EventArgs
+    {
+        public ModNode Mod;
+        public bool Handeled;
+
+        public BeforeModUpdateCheckEventArgs(ModNode mod)
+        {
+            Mod = mod;
+            Handeled = false;
+        }
+    }
+
+    //public class BeforeUpdateModEventArgs : BeforeModUpdateCheckEventArgs
+    //{
+    //    public BeforeUpdateModEventArgs(ModNode mod) : base (mod)
+    //    { }
+    //}
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using KSPModAdmin.Core;
+using KSPModAdmin.Core.Model;
 using KSPModAdmin.Core.Utils;
 using KSPMODAdmin.Core.Utils.Ckan;
 using KSPModAdmin.Plugin.ModBrowserTab.Model;
@@ -51,8 +52,17 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
             EventDistributor.AsyncTaskDone += AsyncTaskDone;
             EventDistributor.LanguageChanged += LanguageChanged;
 
+            //ModSelectionController.BeforeAddMod += OnBeforeAddMod;
+
             // Add your stuff to initialize here.
             View.Model = model;
+        }
+
+        private static ModNode OnBeforeAddMod(BeforeAddModEventArgs e)
+        {
+            e.Handeled = true;
+
+            return new ModNode() { Name = "TEST" };
         }
 
         #region EventDistributor callback functions.
