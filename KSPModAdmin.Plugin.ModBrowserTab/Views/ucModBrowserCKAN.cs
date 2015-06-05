@@ -16,7 +16,7 @@ using KSPModAdmin.Plugin.ModBrowserTab.Model;
 namespace KSPModAdmin.Plugin.ModBrowserTab.Views
 {
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Reviewed. Suppression is OK here.")]
-    public partial class ucModBrowserCKAN : ucBase, IKSPMAModBrowser
+    public partial class UcModBrowserCkan : ucBase, IKSPMAModBrowser
     {
         #region Member
 
@@ -200,14 +200,14 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
         /// <summary>
         /// Creates a new instance of the ucTranslationView class.
         /// </summary>
-        public ucModBrowserCKAN()
+        public UcModBrowserCkan()
         {
             InitializeComponent();
 
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
-            ModBrowserCKANController.Initialize(this);
+            ModBrowserCkanController.Initialize(this);
         }
 
         #region Event handling
@@ -216,22 +216,22 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
         {
             // do View related init here or in the PluginViewController.Initialize(...) methode.
             TreeViewAdvColumnHelper.ColumnsToTreeViewAdv(tvCkanRepositories, Columns);
-            ModBrowserCKANController.RefreshCkanRepositories();
+            ModBrowserCkanController.RefreshCkanRepositories();
         }
 
         private void tsbModBrowserCkanRefresh_Click(object sender, EventArgs e)
         {
             updating = true;
-            ModBrowserCKANController.RefreshCkanRepositories(() =>
+            ModBrowserCkanController.RefreshCkanRepositories(() =>
                 {
-                    ModBrowserCKANController.RefreshCkanArchive(cbModBrowserCkanRepository.SelectedItem as CkanRepository, true);
+                    ModBrowserCkanController.RefreshCkanArchive(cbModBrowserCkanRepository.SelectedItem as CkanRepository, true);
                     updating = false;
                 });
         }
 
         private void btnModBrowserCkanProcessChanges_Click(object sender, EventArgs e)
         {
-            ModBrowserCKANController.ProcessChanges();
+            ModBrowserCkanController.ProcessChanges();
         }
 
         private void cbModBrowserCkanRepository_SelectedIndexChanged(object sender, EventArgs e)
@@ -243,7 +243,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Views
             tableLayoutPanel1.Visible = (sel == null);
 
             if (sel != null)
-                ModBrowserCKANController.RefreshCkanArchive(sel, firstStart);
+                ModBrowserCkanController.RefreshCkanArchive(sel, firstStart);
 
             firstStart = false;
         }

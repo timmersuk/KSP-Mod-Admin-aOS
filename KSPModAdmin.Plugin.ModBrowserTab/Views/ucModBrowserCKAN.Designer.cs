@@ -1,6 +1,6 @@
 ﻿namespace KSPModAdmin.Plugin.ModBrowserTab.Views
 {
-    partial class ucModBrowserCKAN
+    partial class UcModBrowserCkan
     {
         /// <summary> 
         /// Required designer variable.
@@ -208,7 +208,7 @@
             this.Controls.Add(this.lblModBrowserCkanCount);
             this.Controls.Add(this.tvCkanRepositories);
             this.Controls.Add(this.tsModBrowserCkan);
-            this.Name = "ucModBrowserCKAN";
+            this.Name = "UcModBrowserCkan";
             this.Size = new System.Drawing.Size(675, 442);
             this.Load += new System.EventHandler(this.ucModBrowserCKAN_Load);
             this.tsModBrowserCkan.ResumeLayout(false);
