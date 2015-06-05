@@ -29,6 +29,7 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Controller
             EventDistributor.AsyncTaskDone += AsyncTaskDone;
 
             // Add your stuff to initialize here.
+            // MainController.View.UcKSPStartup.Visible = false;
         }
 
         #region EventDistributor callback functions.

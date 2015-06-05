@@ -19,7 +19,7 @@ namespace KSPModAdmin.Plugin.LaunchOptions
         /// <summary>
         /// Name of the plugin.
         /// </summary>
-        public string Name { get { return "Generic Plugin"; } }
+        public string Name { get { return "Launch Options Plugin"; } }
 
         /// <summary>
         /// Description of the plugin.
@@ -28,7 +28,7 @@ namespace KSPModAdmin.Plugin.LaunchOptions
         {
             get
             {
-                return "This Plugin adds a tab to [insert purpose here].";
+                return "This Plugin adds a tab to fine-tune the launch options for KSP.";
             }
         }
 
