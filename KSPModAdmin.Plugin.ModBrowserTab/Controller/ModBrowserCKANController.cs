@@ -16,12 +16,12 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
     /// <summary>
     /// Controller class for the Translation view.
     /// </summary>
-    public class ModBrowserCKANController
+    public class ModBrowserCkanController
     {
         #region Mamber
 
         private const string CkanArchiveFolder = "CKAN_Archives";
-        private static ModBrowserCKANController instance = null;
+        private static ModBrowserCkanController instance = null;
         private static CkanTreeModel model = new CkanTreeModel();
         private static Dictionary<string, CkanArchive> archives = new Dictionary<string, CkanArchive>();
 
@@ -32,19 +32,19 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
         /// <summary>
         /// Gets the singleton of this class.
         /// </summary>
-        protected static ModBrowserCKANController Instance
+        protected static ModBrowserCkanController Instance
         {
-            get { return instance ?? (instance = new ModBrowserCKANController()); }
+            get { return instance ?? (instance = new ModBrowserCkanController()); }
         }
 
         /// <summary>
         /// Gets or sets the view of the controller.
         /// </summary>
-        public static ucModBrowserCKAN View { get; protected set; }
+        public static UcModBrowserCkan View { get; protected set; }
 
         #endregion
 
-        internal static void Initialize(ucModBrowserCKAN view)
+        internal static void Initialize(UcModBrowserCkan view)
         {
             View = view;
 
@@ -52,7 +52,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
             EventDistributor.AsyncTaskDone += AsyncTaskDone;
             EventDistributor.LanguageChanged += LanguageChanged;
 
-            //ModSelectionController.BeforeAddMod += OnBeforeAddMod;
+            ModSelectionController.BeforeAddMod += OnBeforeAddMod;
 
             // Add your stuff to initialize here.
             View.Model = model;
@@ -60,9 +60,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
 
         private static ModNode OnBeforeAddMod(BeforeAddModEventArgs e)
         {
-            e.Handeled = true;
-
-            return new ModNode() { Name = "TEST" };
+            return null;
         }
 
         #region EventDistributor callback functions.

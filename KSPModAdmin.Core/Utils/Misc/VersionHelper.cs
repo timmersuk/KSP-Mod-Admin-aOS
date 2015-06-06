@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 
 namespace KSPModAdmin.Core.Utils
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// Helper class to get the version from the executing assembly.
     /// </summary>
@@ -75,6 +77,9 @@ namespace KSPModAdmin.Core.Utils
         }
     }
 
+    /// <summary>
+    /// Enumeration of all possible OS platforms.
+    /// </summary>
     public enum Platform
     {
         Unknown,
@@ -83,22 +88,30 @@ namespace KSPModAdmin.Core.Utils
         OsX
     }
 
+    /// <summary>
+    /// Helper class to identify the running OS.
+    /// </summary>
     public static class PlatformHelper
     {
+        /// <summary>
+        /// Gets the OS platform the code is running on.
+        /// </summary>
+        /// <returns>The OS platform the code is running on.</returns>
         public static Platform GetPlatform()
         {
             if (Path.DirectorySeparatorChar == '\\')
                 return Platform.Win;
             else if (DetectUnixKernal() == "Darwin")
                 return Platform.OsX;
-			else if (Environment.OSVersion.Platform == PlatformID.Unix)
+            else if (Environment.OSVersion.Platform == PlatformID.Unix)
                 return Platform.Linux;
-			else
+            else
                 return Platform.Unknown;
         }
 
-        //From Managed.Windows.Forms/XplatUI
-        [DllImport("libc")]
+        [DllImport("libc"), 
+        SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Reviewed. Suppression is OK here."),
+        SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1400:AccessModifierMustBeDeclared", Justification = "Reviewed. Suppression is OK here.")]
         static extern int uname(IntPtr buf);
 
         private static string DetectUnixKernal()

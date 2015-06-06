@@ -16,18 +16,70 @@ using SharpCompress.Archive;
 
 namespace KSPModAdmin.Core.Controller
 {
+    #region Event delegates
+
+    /// <summary>
+    /// Delegate for the BeforeAddMod event.
+    /// </summary>
+    /// <param name="e">The event arguments.</param>
+    /// <returns>The new created node that should be added to the ModSelection.</returns>
     public delegate ModNode BeforeAddModHandler(BeforeAddModEventArgs e);
-    public delegate void BeforeModUpdateCheck(BeforeModUpdateCheckEventArgs e);
-    ////public delegate void BeforeUpdateMod(BeforeUpdateModEventArgs e);
+
+    /// <summary>
+    /// Delegate for the BeforeModUpdateCheck event.
+    /// </summary>
+    /// <param name="e">The event arguments.</param>
+    /// <returns>The outdated stated of the mod (true = is outdated).</returns>
+    public delegate bool BeforeModUpdateCheckHandler(BeforeModUpdateCheckEventArgs e);
+
+    /// <summary>
+    /// Delegate for the BeforeDownloadModUpdate event.
+    /// </summary>
+    /// <param name="e">The event arguments.</param>
+    /// <returns>The ModInfos of the new mod that should be used during UpdateMod(...).</returns>
+    public delegate ModInfo BeforeDownloadModUpdateHandler(BeforeDownloadModUpdateEventArgs e);
+
+    /// <summary>
+    /// Delegate for the BeforeUpdateMod event.
+    /// </summary>
+    /// <param name="e">The event arguments.</param>
+    /// <returns>The new updated mod.</returns>
+    public delegate ModNode BeforeUpdateModHandler(BeforeUpdateModEventArgs e);
+
+    #endregion
 
     /// <summary>
     /// Controller for the ucModSelection.
     /// </summary>
     public class ModSelectionController
     {
+        #region Events
+
+        /// <summary>
+        /// Event that will be raised before a new mod will be created and added.
+        /// Set handled to true and return a valid ModNode of the new mod to handle the add process on your own.
+        /// </summary>
         public static event BeforeAddModHandler BeforeAddMod = null;
-        public static event BeforeModUpdateCheck BeforeModUpdateCheck = null;
-        ////public static event BeforeUpdateMod BeforeUpdateMod = null;
+
+        /// <summary>
+        /// Event that will be raised before a ModUpdateCheck will be made.
+        /// Set handled to true and return the outdated state of the mod, to handle the mod update check process on your own.
+        /// </summary>
+        public static event BeforeModUpdateCheckHandler BeforeModUpdateCheck = null;
+
+        /// <summary>
+        /// Event that will be raised before the new mod update of a outdated mod will be downloaded.
+        /// Set handled to true and return the new ModInfo to update the outdated mod with, to handle the download process on your own.
+        /// </summary>
+        public static event BeforeDownloadModUpdateHandler BeforeDownloadModUpdate = null;
+
+        /// <summary>
+        /// Event that will be raised before a mod will be updated.
+        /// Set handled to true and return the new updated mod, to handle the update process on your own.
+        /// </summary>
+        public static event BeforeUpdateModHandler BeforeUpdateMod = null;
+
+        #endregion
 
         #region Member variables
 
@@ -1329,13 +1381,15 @@ namespace KSPModAdmin.Core.Controller
             foreach (ModNode mod in mods)
             {
                 bool handled = false;
-                if (BeforeAddMod != null)
+                if (BeforeModUpdateCheck != null)
                 {
                     try
                     {
                         var args = new BeforeModUpdateCheckEventArgs(mod);
-                        BeforeModUpdateCheck(args);
+                        var isOutdated = BeforeModUpdateCheck(args);
                         handled = args.Handeled;
+                        if (handled)
+                            mod.IsOutdated = isOutdated;
                     }
                     catch (Exception ex)
                     {
@@ -1442,59 +1496,101 @@ namespace KSPModAdmin.Core.Controller
             {
                 try
                 {
+                    ModInfo newModInfos = null;
+
+                    bool handled = false;
+                    if (BeforeDownloadModUpdate != null)
+                    {
+                        try
+                        {
+                            var args = new BeforeDownloadModUpdateEventArgs(mod);
+                            newModInfos = BeforeDownloadModUpdate(args);
+                            handled = args.Handeled;
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.AddErrorS("Error during call of BeforeModUpdateCheck()", ex);
+                            handled = false;
+                        }
+                    }
+
                     var handler = mod.SiteHandler;
-                    if (handler != null)
+                    if (!handled && handler != null)
                     {
                         Messenger.AddInfo(string.Format(Messages.MSG_DOWNLOADING_MOD_0, mod.Name));
-                        ModInfo newModInfos = handler.GetModInfo(mod.ModURL);
-                        if (handler.DownloadMod(ref newModInfos, (received, fileSize) => { View.SetProgressBarStates(true, (int)(fileSize / 1000), (int)(received / 1000)); }))
-                            UpdateMod(newModInfos, mod);
-
-                        View.SetProgressBarStates(false);
+                        handler.GetModInfo(mod.ModURL);
+                        handled = handler.DownloadMod(ref newModInfos, (received, fileSize) => { View.SetProgressBarStates(true, (int)(fileSize / 1000), (int)(received / 1000)); });
                     }
+
+                    if (handled && newModInfos != null)
+                        UpdateMod(newModInfos, mod);
                 }
                 catch (Exception ex)
                 {
                     Messenger.AddError(string.Format(Messages.MSG_ERROR_DURING_MODUPDATE_0_ERROR_1, mod.Name, ex.Message), ex);
                 }
             }
+
+            View.SetProgressBarStates(false);
         }
 
         /// <summary>
         /// Updates the outdated mod.
         /// Tries to copy the checked state and destination of a mod and its parts, then uninstalls the outdated mod and installs the new one.
         /// </summary>
-        /// <param name="newModInfo">The ModeInfo of the new mod.</param>
+        /// <param name="newModModInfo">The ModeInfo of the new mod.</param>
         /// <param name="outdatedMod">The root ModNode of the outdated mod.</param>
         /// <returns>The updated mod.</returns>
-        public static ModNode UpdateMod(ModInfo newModInfo, ModNode outdatedMod)
+        public static ModNode UpdateMod(ModInfo newModModInfo, ModNode outdatedMod)
         {
             ModNode newMod = null;
             try
             {
                 Messenger.AddInfo(string.Format(Messages.MSG_UPDATING_MOD_0, outdatedMod.Text));
-                newMod = ModNodeHandler.CreateModNode(newModInfo);
-                newMod.AdditionalURL = outdatedMod.AdditionalURL;
-                newMod.AvcURL = outdatedMod.AvcURL;
-                newMod.Note = outdatedMod.Note;
-                if (OptionsController.ModUpdateBehavior == ModUpdateBehavior.RemoveAndAdd || (!outdatedMod.IsInstalled && !outdatedMod.HasInstalledChilds))
+
+                bool handled = false;
+                if (BeforeUpdateMod != null)
                 {
-                    RemoveOutdatedAndAddNewMod(outdatedMod, newMod);
-                    View.InvokeIfRequired(() => { newMod._Checked = false; });
-                }
-                else
-                {
-                    // Find matching file nodes and copy destination from old to new mod.
-                    if (ModNodeHandler.TryCopyDestToMatchingNodes(outdatedMod, newMod))
+                    try
                     {
-                        newMod.ModURL = outdatedMod.ModURL;
+                        var args = new BeforeUpdateModEventArgs(newModModInfo, outdatedMod);
+                        var mod = BeforeUpdateMod(args);
+                        handled = args.Handeled;
+                        if (handled)
+                            newMod = mod;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.AddErrorS("Error during call of BeforeModUpdateCheck()", ex);
+                        handled = false;
+                    }
+                }
+
+                if (!handled)
+                { 
+                    newMod = ModNodeHandler.CreateModNode(newModModInfo);
+                    newMod.AdditionalURL = outdatedMod.AdditionalURL;
+                    newMod.AvcURL = outdatedMod.AvcURL;
+                    newMod.Note = outdatedMod.Note;
+                    if (OptionsController.ModUpdateBehavior == ModUpdateBehavior.RemoveAndAdd || (!outdatedMod.IsInstalled && !outdatedMod.HasInstalledChilds))
+                    {
                         RemoveOutdatedAndAddNewMod(outdatedMod, newMod);
-                        ProcessMods(new ModNode[] { newMod }, true);
+                        View.InvokeIfRequired(() => { newMod._Checked = false; });
                     }
                     else
                     {
-                        // No match found -> user must handle update.
-                        View.InvokeIfRequired(() => MessageBox.Show(View.ParentForm, string.Format(Messages.MSG_ERROR_UPDATING_MOD_0_FAILED, outdatedMod.Text)));
+                        // Find matching file nodes and copy destination from old to new mod.
+                        if (ModNodeHandler.TryCopyDestToMatchingNodes(outdatedMod, newMod))
+                        {
+                            newMod.ModURL = outdatedMod.ModURL;
+                            RemoveOutdatedAndAddNewMod(outdatedMod, newMod);
+                            ProcessMods(new ModNode[] { newMod }, true);
+                        }
+                        else
+                        {
+                            // No match found -> user must handle update.
+                            View.InvokeIfRequired(() => MessageBox.Show(View.ParentForm, string.Format(Messages.MSG_ERROR_UPDATING_MOD_0_FAILED, outdatedMod.Text)));
+                        }
                     }
                 }
 
@@ -1817,11 +1913,28 @@ namespace KSPModAdmin.Core.Controller
         }
     }
 
+    #region EventsArgs
+
+    /// <summary>
+    /// EventArgs for the BeforeAddMod event
+    /// </summary>
     public class BeforeAddModEventArgs : EventArgs
     {
-        public ModInfo ModInfo;
-        public bool Handeled;
+        /// <summary>
+        /// The ModInfo of the mod to add.
+        /// </summary>
+        public ModInfo ModInfo { get; set; }
 
+        /// <summary>
+        /// Flag to determine if the return value of the EventHander function should be used instead of the current one. 
+        /// </summary>
+        public bool Handeled { get; set; }
+
+
+        /// <summary>
+        /// Creates a instance of the class BeforeAddModEventArgs
+        /// </summary>
+        /// <param name="modInfo">The ModInfo of the mod to add.</param>
         public BeforeAddModEventArgs(ModInfo modInfo)
         {
             ModInfo = modInfo;
@@ -1829,11 +1942,25 @@ namespace KSPModAdmin.Core.Controller
         }
     }
 
+    /// <summary>
+    /// EventArgs for the BeforeModUpdateCheck event
+    /// </summary>
     public class BeforeModUpdateCheckEventArgs : EventArgs
     {
-        public ModNode Mod;
-        public bool Handeled;
+        /// <summary>
+        /// The mod to check for updates.
+        /// </summary>
+        public ModNode Mod { get; set; }
 
+        /// <summary>
+        /// Flag to determine if the return value of the EventHander function should be used instead of the current one. 
+        /// </summary>
+        public bool Handeled { get; set; }
+
+        /// <summary>
+        /// Creates a instance of the class BeforeModUpdateCheckEventArgs
+        /// </summary>
+        /// <param name="mod">The mod to check for updates.</param>
         public BeforeModUpdateCheckEventArgs(ModNode mod)
         {
             Mod = mod;
@@ -1841,9 +1968,62 @@ namespace KSPModAdmin.Core.Controller
         }
     }
 
-    //public class BeforeUpdateModEventArgs : BeforeModUpdateCheckEventArgs
-    //{
-    //    public BeforeUpdateModEventArgs(ModNode mod) : base (mod)
-    //    { }
-    //}
+    /// <summary>
+    /// EventArgs for the BeforeDownloadModUpdate event
+    /// </summary>
+    public class BeforeDownloadModUpdateEventArgs
+    {
+        /// <summary>
+        /// The outdated mod.
+        /// </summary>
+        public ModNode OutdatedMod { get; set; }
+
+        /// <summary>
+        /// Flag to determine if the return value of the EventHander function should be used instead of the current one. 
+        /// </summary>
+        public bool Handeled { get; set; }
+
+        /// <summary>
+        /// Creates a instance of the class BeforeDownloadModUpdateEventArgs
+        /// </summary>
+        /// <param name="outdatedMod">The outdated mod.</param>
+        public BeforeDownloadModUpdateEventArgs(ModNode outdatedMod)
+        {
+            OutdatedMod = outdatedMod;
+        }
+    }
+
+    /// <summary>
+    /// EventArgs for the BeforeUpdateMod event
+    /// </summary>
+    public class BeforeUpdateModEventArgs
+    {
+        /// <summary>
+        /// The ModInfos of the new mod.
+        /// </summary>
+        public ModInfo NewModModInfo { get; set; }
+
+        /// <summary>
+        /// The outdated mod.
+        /// </summary>
+        public ModNode OutdatedMod { get; set; }
+
+        /// <summary>
+        /// Flag to determine if the return value of the EventHander function should be used instead of the current one. 
+        /// </summary>
+        public bool Handeled { get; set; }
+
+        /// <summary>
+        /// Creates a instance of the class BeforeDownloadModUpdateEventArgs
+        /// </summary>
+        /// <param name="newModModInfo">The ModInfos of the new mod.</param>
+        /// <param name="outdatedMod">The outdated mod.</param>
+        public BeforeUpdateModEventArgs(ModInfo newModModInfo, ModNode outdatedMod)
+        {
+            NewModModInfo = newModModInfo;
+            OutdatedMod = outdatedMod;
+        }
+    }
+
+    #endregion
 }
