@@ -27,6 +27,15 @@
 //// TODO
 ///////////////////// 
 
+-> ModBrowserTab project
+   - Project rearrangements for monodevelop support
+   - Remove Post build event 
+   - Change output path
+   - Copy Languagefiles via properties
+
+-> All Plugin projects that using SharpCompress.
+   - Set LokalCopy to false.
+
 - CKAN package support (add as file or url) + CKAN repository browser
   - Finde a place to holde the CKAN Repos.
 
