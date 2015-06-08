@@ -36,6 +36,10 @@
 
 - MONO:
   - TreeListView improvement -> Column Header draw and row offset ...
+  - Plus/Minus of TreeViewAdv is misplaced.
+  - "Please select Backup Folder" Label is invisible (lblSelectBackupPathFirst)
+  - Button Text allignement...
+  - Filter DropDown on Crafts Tab
 
 - ModInfos are automatically added about add-ons where a valid version control site is detected. 
   That is great, however some information fields are not automatically filled (Author, Creation date, Change date). 

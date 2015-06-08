@@ -58,12 +58,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="StyleCop">
-      <HintPath>..\packages\StyleCop.4.7.49.0\lib\net35\StyleCop.dll</HintPath>
-    </Reference>
-    <Reference Include="StyleCop.CSharp">
-      <HintPath>..\packages\StyleCop.4.7.49.0\lib\net35\StyleCop.CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http">
@@ -84,15 +78,23 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Languages\KSPMA.eng.lang">
+    <Content Include="Languages\KSPMA.eng.lang">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Languages\KSPMA.fake.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Languages\KSPMA.fake.lang">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Languages\KSPMA.ger.lang" />
-    <None Include="Languages\KSPMA.ital.lang" />
-    <None Include="Languages\KSPMA.rus.lang" />
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Languages\KSPMA.ger.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Languages\KSPMA.ital.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Languages\KSPMA.rus.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Pics\KSPMA Icon\KMA_and_KMA2_icon.psd" />
     <None Include="Pics\KSPMA Icon\KMA_Vectors.ai" />
@@ -112,9 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\HowTo_BBCode.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="docs\Licenses\CheckBoxComboBoxLicense.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="docs\Licenses\FolderSelectionDialogLicense.txt">
@@ -162,6 +161,8 @@ xcopy /E /Y /R /I "$(SolutionDir)KSPModAdmin.Plugin.BackupTab\$(OutDir)KSPModAdm
 xcopy /E /Y /R /I "$(SolutionDir)KSPModAdmin.Plugin.FlagsTab\$(OutDir)KSPModAdmin.Plugin.FlagsTab.dll" "$(ProjectDir)$(OutDir)Plugins"
 xcopy /E /Y /R /I "$(SolutionDir)KSPModAdmin.Plugin.PartsAndCraftsTab\$(OutDir)KSPModAdmin.Plugin.PartsAndCraftsTab.dll" "$(ProjectDir)$(OutDir)Plugins"
 xcopy /E /Y /R /I "$(SolutionDir)KSPModAdmin.Plugin.LaunchOptions\$(OutDir)KSPModAdmin.Plugin.LaunchOptions.dll" "$(ProjectDir)$(OutDir)Plugins"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\StyleCop.MSBuild.4.7.49.1\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.1\build\StyleCop.MSBuild.Targets')" />
   <PropertyGroup>
