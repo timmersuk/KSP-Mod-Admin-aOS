@@ -170,10 +170,13 @@ xcopy /E /Y /R /I "$(SolutionDir)KSPModAdmin.Plugin.LaunchOptions\$(OutDir)KSPMo
     </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets. -->
   <Target Name="BeforeBuild">
+    <!-- Remove obj folder -->
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <!-- Remove bin folder -->
+    <RemoveDir Directories="$(BaseOutputPath)" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
 </Project>
