@@ -34,7 +34,6 @@ namespace KSPModAdmin.Core.Views
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.tabControl1 = new TabControlEx();
             this.tabControl1 = new KSPModAdmin.Core.Utils.Controls.TabControlEx();
             this.tabPageModSelection = new System.Windows.Forms.TabPage();
             this.ucModSelection1 = new KSPModAdmin.Core.Views.ucModSelection();

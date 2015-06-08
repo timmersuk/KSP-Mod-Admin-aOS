@@ -29,7 +29,16 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Controller
             EventDistributor.AsyncTaskDone += AsyncTaskDone;
 
             // Add your stuff to initialize here.
-            // MainController.View.UcKSPStartup.Visible = false;
+            //MainController.View.UcKSPStartup.Visible = false;
+            if (true) // This needs to be option driven...
+            {
+                var ucLaunchPanel = new Views.ucLaunchPanel();
+                ucLaunchPanel.Dock = DockStyle.Fill;
+
+                MainController.View.UcKSPStartup.Controls.Clear();
+                MainController.View.UcKSPStartup.Controls.Add(ucLaunchPanel);
+            }
+
         }
 
         #region EventDistributor callback functions.

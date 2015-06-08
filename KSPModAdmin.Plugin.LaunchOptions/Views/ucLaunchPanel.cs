@@ -23,7 +23,15 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Views
 
         private void btnSetLaunchOptions_Click(object sender, EventArgs e)
         {
-           // MainController.View.TabControl.SelectTab("Launch Options");
+            //// Debug code: list all tabs by name to debug log
+            //var tabs = ",";
+            //foreach (TabPage tab in MainController.View.TabControl.TabPages)
+            //{
+            //    tabs = tabs + "," + tab.Name;
+            //}
+            //Messenger.AddDebug("tabs are:" + tabs);
+
+            MainController.View.TabControl.SelectTab("b1ed6a13-2e8c-4d1b-8012-a90af9b24c3e");
         }
     }
 }
