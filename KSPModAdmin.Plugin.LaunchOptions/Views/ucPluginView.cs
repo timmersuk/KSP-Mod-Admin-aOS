@@ -22,6 +22,7 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Views
                 return;
 
             PluginViewController.Initialize(this);
+            chkUseLaunchOptions.Checked = Properties.settings.Default.useLaunchOptions;
         }
 
         #region Event handling
@@ -60,6 +61,22 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Views
             // Enable/Disable your View Controls here.
             // Normally when KSP MA calls this methode with enable = false, all controls should be disabled.
             this.Enabled = enable;
+        }
+
+        private void chkUseLaunchOptions_CheckedChanged(object sender, EventArgs e)
+        {
+           if (chkUseLaunchOptions.Checked)
+           {
+               PluginViewController.EnableLaunchOptions();
+               Properties.settings.Default.useLaunchOptions = true;
+               Properties.settings.Default.Save();
+           }
+           else
+           {
+               PluginViewController.EnableLaunchOptions(false);
+               Properties.settings.Default.useLaunchOptions = false;
+               Properties.settings.Default.Save();
+           }
         }
     }
 }

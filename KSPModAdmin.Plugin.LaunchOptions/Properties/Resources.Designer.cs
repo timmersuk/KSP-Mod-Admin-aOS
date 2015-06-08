@@ -63,9 +63,9 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap kerbal_24x24 {
+        internal static System.Drawing.Bitmap cube_molecule {
             get {
-                object obj = ResourceManager.GetObject("kerbal_24x24", resourceCulture);
+                object obj = ResourceManager.GetObject("cube_molecule", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Unknown {
+        internal static System.Drawing.Bitmap kerbal_24x24 {
             get {
-                object obj = ResourceManager.GetObject("Unknown", resourceCulture);
+                object obj = ResourceManager.GetObject("kerbal_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

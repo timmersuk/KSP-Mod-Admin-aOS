@@ -69,6 +69,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Controller\PluginViewController.cs" />
+    <Compile Include="Properties\settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Views\ucPluginView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +91,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ucPluginView.resx">
       <DependentUpon>ucPluginView.cs</DependentUpon>
@@ -101,10 +107,16 @@
     <Content Include="Languages\KSPMA.LaunchOptionsPlugin.fake.lang">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
+    <None Include="Resources\cube_molecule.png" />
     <None Include="Resources\kerbal_24x24.png" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\LanguageEntry.datasource" />
     <None Include="Settings.StyleCop" />
+    <None Include="Properties\settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KSPModAdmin.Core\KSPModAdmin.Core.csproj">
@@ -112,9 +124,6 @@
       <Name>KSPModAdmin.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

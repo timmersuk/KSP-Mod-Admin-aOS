@@ -30,17 +30,34 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Controller
 
             // Add your stuff to initialize here.
             //MainController.View.UcKSPStartup.Visible = false;
-            if (true) // This needs to be option driven...
+            if (Properties.settings.Default.useLaunchOptions) // This needs to be option driven...
             {
-                var ucLaunchPanel = new Views.ucLaunchPanel();
-                ucLaunchPanel.Dock = DockStyle.Fill;
-
-                MainController.View.UcKSPStartup.Controls.Clear();
-                MainController.View.UcKSPStartup.Controls.Add(ucLaunchPanel);
+                EnableLaunchOptions();
             }
 
         }
 
+        internal static void EnableLaunchOptions(bool state = true)
+        {
+            if (state)
+            {
+                var newPanel = new Views.ucLaunchPanel();
+
+                newPanel.Dock = DockStyle.Fill;
+
+                MainController.View.UcKSPStartup.Controls.Clear();
+                MainController.View.UcKSPStartup.Controls.Add(newPanel);
+            }
+            else
+            {
+                var newPanel = new KSPModAdmin.Core.Views.ucKSPStartup();
+
+                newPanel.Dock = DockStyle.Fill;
+
+                MainController.View.UcKSPStartup.Controls.Clear();
+                MainController.View.UcKSPStartup.Controls.Add(newPanel);
+            }
+        }
         #region EventDistributor callback functions.
 
         /// <summary>
