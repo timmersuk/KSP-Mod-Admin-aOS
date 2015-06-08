@@ -35,6 +35,7 @@ namespace KSPModAdmin.Core.Views
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tabControl1 = new TabControlEx();
+            this.tabControl1 = new KSPModAdmin.Core.Utils.Controls.TabControlEx();
             this.tabPageModSelection = new System.Windows.Forms.TabPage();
             this.ucModSelection1 = new KSPModAdmin.Core.Views.ucModSelection();
             this.ucKSPStartup1 = new KSPModAdmin.Core.Views.ucKSPStartup();
@@ -61,6 +62,8 @@ namespace KSPModAdmin.Core.Views
             // 
             // tabControl1
             // 
+            this.tabControl1.AllowDrop = true;
+            this.tabControl1.AllowTabDrag = true;
             this.tabControl1.Controls.Add(this.tabPageModSelection);
             this.tabControl1.Controls.Add(this.tabPageOptions);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -70,8 +73,6 @@ namespace KSPModAdmin.Core.Views
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(689, 540);
             this.tabControl1.TabIndex = 0;
-            this.tabControl1.AllowDrop = true;
-            this.tabControl1.AllowTabDrag = true;
             // 
             // tabPageModSelection
             // 

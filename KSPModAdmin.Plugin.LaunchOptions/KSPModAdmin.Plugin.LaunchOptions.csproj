@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\KSPModAdmin\bin\Debug\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -81,6 +81,12 @@
     <Compile Include="Views\ucPluginView.Designer.cs">
       <DependentUpon>ucPluginView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ucLaunchPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ucLaunchPanel.Designer.cs">
+      <DependentUpon>ucLaunchPanel.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -90,10 +96,18 @@
     <EmbeddedResource Include="Views\ucPluginView.resx">
       <DependentUpon>ucPluginView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ucLaunchPanel.resx">
+      <DependentUpon>ucLaunchPanel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Languages\KSPMA.LaunchOptionsPlugin.eng.lang" />
-    <None Include="Languages\KSPMA.LaunchOptionsPlugin.fake.lang" />
+    <Content Include="Languages\KSPMA.LaunchOptionsPlugin.eng.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Languages\KSPMA.LaunchOptionsPlugin.fake.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\kerbal_24x24.png" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\LanguageEntry.datasource" />
     <None Include="Settings.StyleCop" />
