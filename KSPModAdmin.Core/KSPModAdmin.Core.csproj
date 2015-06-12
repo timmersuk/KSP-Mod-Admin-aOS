@@ -127,6 +127,10 @@
     <Compile Include="Utils\Controls\TreeViewEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Utils\KerbalStuff\KerbalStuff.cs" />
+    <Compile Include="Utils\KerbalStuff\KsMod.cs" />
+    <Compile Include="Utils\KerbalStuff\KsResponse.cs" />
+    <Compile Include="Utils\KerbalStuff\KsVersion.cs" />
     <Compile Include="Utils\ModPackHandler.cs" />
     <Compile Include="Utils\SiteHandler\CurseForgeHandler.cs" />
     <Compile Include="Utils\SiteHandler\CurseHandler.cs" />

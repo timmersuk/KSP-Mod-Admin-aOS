@@ -22,6 +22,8 @@ namespace KSPModAdmin.Core.Utils
     /// </summary>
     public class Www
     {
+        private const string UserAgent = "KSP Mod Admin aOS";
+
         ////public static Regex ArchiveRegEx = new Regex("http(s?):(.*)[.](zip|rar|7zip)(\")");
         ////public static Regex HTMLLinkRegEx = new Regex("<a href=\"http(s?):(.*?)\" target=\"(.*?)\">(.*?)</a>");
 
@@ -31,11 +33,13 @@ namespace KSPModAdmin.Core.Utils
         /// </summary>
         /// <param name="url">The URL to get the content from.</param>
         /// <returns>The content of the site from the passed URL as a string.</returns>
-        public static string Load(string url)
+        public static string Load(string url, string userAgent = null)
         {
             try
             {
-                WebRequest request = WebRequest.Create(url);
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                request.UserAgent = userAgent ?? UserAgent;
+
                 using (WebResponse response = request.GetResponse())
                 {
                     using (Stream dataStream = response.GetResponseStream())
@@ -49,7 +53,7 @@ namespace KSPModAdmin.Core.Utils
             }
             catch (WebException wEx)
             {
-				if (PlatformHelper.GetPlatform() != Platform.Win && wEx.Status == WebExceptionStatus.SendFailure)
+                if (PlatformHelper.GetPlatform() != Platform.Win && wEx.Status == WebExceptionStatus.SendFailure)
                 {
                     string msg = string.Format("Error during www.Load({0}){1}Possible problem: Missing certificates.{1}Enter \"mozroots --sync --import\" in your terminal to add missing certificates.", url, Environment.NewLine);
                     try

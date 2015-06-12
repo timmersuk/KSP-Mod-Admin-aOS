@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\KSPModAdmin\bin\Debug\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,14 +25,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\KSPModAdmin\bin\Release\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug MONO|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug MONO\</OutputPath>
+    <OutputPath>..\KSPModAdmin\bin\Debug MONO\Plugins\</OutputPath>
     <DefineConstants>TRACE;DEBUG;__MonoCS__</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,7 +40,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release MONO|AnyCPU'">
-    <OutputPath>bin\Release MONO\</OutputPath>
+    <OutputPath>..\KSPModAdmin\bin\Release MONO\Plugins\</OutputPath>
     <DefineConstants>TRACE;__MonoCS__</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -60,10 +60,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\ModBrowserKerbalStuffControlle.cs" />
     <Compile Include="Controller\ModBrowserCKANController.cs" />
     <Compile Include="ModBrowserRegister.cs" />
     <Compile Include="KSPMAPlugin.cs" />
     <Compile Include="Messages.cs" />
+    <Compile Include="Model\KerbalStuffNode.cs" />
+    <Compile Include="Model\KerbalStuffTreeModel.cs" />
     <Compile Include="Model\CkanTreeModel.cs" />
     <Compile Include="Model\CkanNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +77,12 @@
     </Compile>
     <Compile Include="Controller\ModBrowserViewController.cs" />
     <Compile Include="IKSPMAModBrowser.cs" />
+    <Compile Include="Views\ucModBrowserKerbalStuff.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ucModBrowserKerbalStuff.Designer.cs">
+      <DependentUpon>ucModBrowserKerbalStuff.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ucModBrowserCKAN.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -92,6 +101,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ucModBrowserKerbalStuff.resx">
+      <DependentUpon>ucModBrowserKerbalStuff.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\ucModBrowserCKAN.resx">
       <DependentUpon>ucModBrowserCKAN.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,9 +112,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Languages\KSPMA.ModBrowserTabPlugin.eng.lang" />
-    <None Include="Languages\KSPMA.ModBrowserTabPlugin.ger.lang" />
-    <None Include="Languages\KSPMA.ModBrowserTabPlugin.fake.lang" />
+    <Content Include="Languages\KSPMA.ModBrowserTabPlugin.eng.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Languages\KSPMA.ModBrowserTabPlugin.ger.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Languages\KSPMA.ModBrowserTabPlugin.fake.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\navigate_right.png" />
+    <None Include="Resources\navigate_left.png" />
+    <None Include="Resources\navigate_end.png" />
+    <None Include="Resources\navigate_beginning.png" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\LanguageEntry.datasource" />
     <None Include="Settings.StyleCop" />

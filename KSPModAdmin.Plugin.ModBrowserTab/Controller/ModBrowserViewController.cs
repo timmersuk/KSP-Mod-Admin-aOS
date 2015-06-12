@@ -47,6 +47,7 @@ namespace KSPModAdmin.Plugin.ModBrowserTab.Controller
                 ModBrowserInitComplete();
 
             RegisterModBrowser(new UcModBrowserCkan());
+            RegisterModBrowser(new UcModBrowserKerbalStuff());
         }
 
         #region EventDistributor callback functions.
