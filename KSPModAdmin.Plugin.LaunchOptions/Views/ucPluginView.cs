@@ -12,7 +12,7 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Views
     public partial class ucPluginView : ucBase
     {
         /// <summary>
-        /// Creates a new instance of the ucTranslationView class.
+        /// Creates a new instance of the ucPluginView class.
         /// </summary>
         public ucPluginView()
         {

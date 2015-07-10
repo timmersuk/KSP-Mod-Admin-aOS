@@ -34,5 +34,101 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Properties {
                 this["useLaunchOptions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool fullScreen {
+            get {
+                return ((bool)(this["fullScreen"]));
+            }
+            set {
+                this["fullScreen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool forceGraphicsMode {
+            get {
+                return ((bool)(this["forceGraphicsMode"]));
+            }
+            set {
+                this["forceGraphicsMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int screenWidth {
+            get {
+                return ((int)(this["screenWidth"]));
+            }
+            set {
+                this["screenWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int screenHeight {
+            get {
+                return ((int)(this["screenHeight"]));
+            }
+            set {
+                this["screenHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int adapter {
+            get {
+                return ((int)(this["adapter"]));
+            }
+            set {
+                this["adapter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int forcedGraphicsMode {
+            get {
+                return ((int)(this["forcedGraphicsMode"]));
+            }
+            set {
+                this["forcedGraphicsMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool batchMode {
+            get {
+                return ((bool)(this["batchMode"]));
+            }
+            set {
+                this["batchMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool batchNoGraphics {
+            get {
+                return ((bool)(this["batchNoGraphics"]));
+            }
+            set {
+                this["batchNoGraphics"] = value;
+            }
+        }
     }
 }
