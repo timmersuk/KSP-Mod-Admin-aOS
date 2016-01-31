@@ -130,5 +130,17 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Properties {
                 this["batchNoGraphics"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool windowBorderless {
+            get {
+                return ((bool)(this["windowBorderless"]));
+            }
+            set {
+                this["windowBorderless"] = value;
+            }
+        }
     }
 }

@@ -30,11 +30,8 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Controller
 
             // Add your stuff to initialize here.
             //MainController.View.UcKSPStartup.Visible = false;
-            if (Properties.settings.Default.useLaunchOptions) // This needs to be option driven...
-            {
-                EnableLaunchOptions();
-            }
-
+            
+            EnableLaunchOptions(Properties.settings.Default.useLaunchOptions);
         }
 
         internal static void EnableLaunchOptions(bool state = true)

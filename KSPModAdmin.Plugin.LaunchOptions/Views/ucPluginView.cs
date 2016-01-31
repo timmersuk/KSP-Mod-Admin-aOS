@@ -23,6 +23,21 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Views
 
             PluginViewController.Initialize(this);
             chkUseLaunchOptions.Checked = Properties.settings.Default.useLaunchOptions;
+            if (Properties.settings.Default.fullScreen)
+            {
+                comboWindowMode.SelectedText = "Fullscreen";
+            }
+            else
+            {
+                if (Properties.settings.Default.windowBorderless)
+                {
+                    comboWindowMode.SelectedText = "Windowed (Borderless)";
+                }
+                else
+                {
+                    comboWindowMode.SelectedText = "Windowed";
+                }
+            }
         }
 
         #region Event handling
@@ -78,5 +93,11 @@ namespace KSPModAdmin.Plugin.LaunchOptions.Views
                Properties.settings.Default.Save();
            }
         }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
