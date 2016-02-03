@@ -593,6 +593,7 @@ namespace KSPModAdmin.Core.Controller
                             TabPage tabPage = new TabPage();
                             tabPage.Tag = tabView.UniqueIdentifier.ToString();
                             tabPage.Text = tabView.TabUserControl.GetTabCaption();
+                            tabPage.Name = tabView.UniqueIdentifier.ToString(); // this is needed so that tabs can be switched to by plugin GUID
                             tabPage.Controls.Add(tabView.TabUserControl);
                             tabView.TabUserControl.Dock = DockStyle.Fill;
                             if (tabView.TabIcon != null)

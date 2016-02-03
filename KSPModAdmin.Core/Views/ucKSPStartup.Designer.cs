@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.rbFullscreen = new System.Windows.Forms.RadioButton();
             this.rbWindowed = new System.Windows.Forms.RadioButton();
@@ -36,7 +35,7 @@
             this.cbBorderlessWin = new System.Windows.Forms.CheckBox();
             this.cbResolutions = new System.Windows.Forms.ComboBox();
             this.cbUse64Bit = new System.Windows.Forms.CheckBox();
-            this.ttKSPStartup = new System.Windows.Forms.ToolTip(this.components);
+            this.ttKSPStartup = new System.Windows.Forms.ToolTip();
             this.btnLaunchKSP = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
