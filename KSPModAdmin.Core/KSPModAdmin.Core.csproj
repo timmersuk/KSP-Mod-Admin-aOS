@@ -72,6 +72,10 @@
       <HintPath>..\packages\Octokit.Caching.1.0.6\lib\net45\Octokit.Caching.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\sharpcompress.0.10.3\lib\net40\SharpCompress.dll</HintPath>
@@ -130,6 +134,7 @@
     <Compile Include="Utils\SiteHandler\CurseForgeHandler.cs" />
     <Compile Include="Utils\SiteHandler\CurseHandler.cs" />
     <Compile Include="Utils\SiteHandler\BitbucketHandler.cs" />
+    <Compile Include="Utils\SiteHandler\JenkinsHandler.cs" />
     <Compile Include="Utils\SiteHandler\KSPForumHandler.cs" />
     <Compile Include="Utils\SiteHandler\GitHubHandler.cs" />
     <Compile Include="Utils\SiteHandler\KerbalStuffHandler.cs" />
